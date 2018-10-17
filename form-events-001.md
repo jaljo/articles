@@ -18,18 +18,19 @@ We ended up with two panels beeing part of the content editor interface, where e
 * by clicking on the save button inside the opened panel,
 * by opening an other panel (it makes sense that there can only be one panel opened at a time).
 
-Therefore, we have to submit the form data of the panel we’re closing, regardless from where we’re closing it. Luckily enough, we’re using React along with Redux so it should’nt be such a big deal to solve this. A traditionnal flow would be something like :
+Therefore, we have to submit the form data of the panel we’re closing, regardless _from where_ we’re closing it. Luckily enough, we’re using React along with Redux so it should’nt be such a big deal to solve this. A traditionnal flow would be something like :
 * all three events dispatch a generic CLOSE action,
 * this action reduces the state of the panel, say it sets a boolean to false,
 * this boolean is used in a React component to mount or unmount the panel,
 * using lifecycle hooks, we can dispatch a SUBMIT action when the component is about to unmount. This action gather and carries the form data in its payload, so we can do whatever we want with it later in our program.
 
 ![form events 4](https://raw.githubusercontent.com/jaljo/articles/master/images/sigourney.jpg)
+
 Sounds great, does it ? Sigourney Weaver approves.
 
 What we have forgotten is, our lovely designer friend thought of beautiful animations for the panel to play whenever it’s opening or closing, and bam ! The above flow no longer works. Because we need to unmount the panel component to submit the form data, it will not always been present in the DOM, and so playing animation with it becomes much more complicated.
 
-The key idea here is the time. We have to think of intermediate actions that will let us identify when the panel is opening or closing so we can delay the moment it will be unmounted.
+The key idea here is _the time_. We have to think of intermediate actions that will let us identify when the panel is opening or closing so we can delay the moment it will be unmounted.
 
 Schematically, here is the flow we’re aiming to achieve :
 * a user click on an element to open the pannel. It dispatch an OPEN action,
@@ -40,16 +41,114 @@ Schematically, here is the flow we’re aiming to achieve :
 The same logic applies when closing the panel, with a subtlety however:
 * a user click on one of the three element that fires the CLOSE action,
 * the state updates, the CSS class is removed from the view so the panel gently returns to it’s initial position,
-* here is the magic trick : we need to dispatch a CLOSED action, so the panel can be unmounted, but after the animation is complete. This is where epics come into play ! The CLOSE action is observed by a little epic, which delays this action, just the time we need to play the closing animation. Then, it finally dispatch the CLOSED action,
+* _here is the magic trick_ : we need to dispatch a CLOSED action, so the panel can be unmounted, but _after_ the animation is complete. This is where epics come into play ! The CLOSE action is observed by a little epic, which _delays_ this action, just the time we need to play the closing animation. Then, it finally dispatch the CLOSED action,
 * from there, we can take back our initial flow : the state is updated and the panel (which is now hidden, thanks to epics) is unmounted,
 * a lifecycle hook triggers the SUBMIT action when the panel is unmounted.
 
-And voila ! Just to make things clearer, below are some examples of what such implementation may look like (the complete POC can be seen here). Here is an extract of the container component of a panel, with it’s lifecycle hooks :
+And voila ! Just to make things clearer, below are some examples of what such implementation may look like (the complete POC can be seen [here](https://github.com/jaljo/form-events)). Here is an extract of the container component of a panel, with it’s lifecycle hooks :
+
+```
+// mapStateToProps :: State -> Props
+const mapStateToProps = state => ({
+  isOpening: state.MetaPanel.isOpening,
+})
+
+// mapDispatchToProps :: (State, Action *) -> Props
+const mapDispatchToProps = dispatch => ({
+  mounted: compose(dispatch, mounted),
+  close: pipe(
+    // prevent form submission default behavior, which reloads the page
+    tap(e => e.preventDefault()),
+    compose(dispatch, close)
+  ),
+  submitForm: pipe(
+    () => document.querySelector('.meta-panel form'),
+    getFormData,
+    submitForm,
+    dispatch,
+  ),
+})
+
+// getFormData :: Element -> Object
+const getFormData = formElement => ({
+  slug: formElement.slug.value,
+  shortTitle: formElement.shortTitle.value,
+})
+
+// didMount :: Props -> Action.MOUNTED
+const didMount = ({ mounted }) => mounted()
+
+// willUnmount :: Props -> Action.SUBMIT_FORM
+const willUnmount = ({ submitForm }) => submitForm()
+
+// MetaPanelLifecycle :: React.Component -> React.Component
+const MetaPanelLifecycle = compose(
+  componentDidMount(didMount),
+  componentWillUnmount(willUnmount),
+)(MetaPanel)
+
+// MetaPanel :: Props -> React.Component
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MetaPanelLifecycle)
+```
 
 Here is the panel view component. Just notice how we use the isOpening prop to set the opening CSS class in the section tag.
 
+```
+// MetaPanelView :: Props -> React.Component
+export default ({
+  close,
+  isOpening,
+}) =>
+  <section className={`panel meta-panel ${isOpening ? 'opening' : ''}`}>
+    <form onSubmit={close}>
+      <div className="field">
+        <label>Slug</label>
+        <input type="text" name="slug"/>
+      </div>
+      <div className="field">
+        <label>Short title</label>
+        <input type="text" name="shortTitle"/>
+      </div>
+      <button className="close">Save</button>
+    </form>
+  </section>
+```
+
 The reducer takes care of updating the panel state. We’re using two distinct booleans : one to determine whether the component should be mounted or not, the other to identify if we are playing the animation.
 
-<script src="https://gist.github.com/jaljo/9eb3a0d6ee31be64161041db190a39c6.js"></script>
+```
+// MetaPanelReducer :: (State, Action *) -> State
+export default createReducer(INITIAL_STATE, {
+  [OPEN]: state => ({
+    ...state,
+    isOpened: true,
+  }),
+  [MOUNTED]: state => ({
+    ...state,
+    isOpening: true,
+  }),
+  [CLOSE]: state => ({
+    ...state,
+    isOpening: false,
+  }),
+  [CLOSED]: state => ({
+    ...state,
+    isOpened: false,
+  }),
+})
+```
 
 And the icing on the cake, a little epic that delays our CLOSED action :
+
+```
+// delayMetaPanelClosingEpic :: Observable Action Error -> Observable Action _
+const delayMetaPanelClosingEpic = action$ => action$.pipe(
+  ofType(CLOSE),
+  // wait for css transition to complete
+  delay(200),
+  map(closed),
+)
+```
