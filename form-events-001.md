@@ -1,5 +1,5 @@
 ### Deal with form submission from multiple events & animation
-# React / Redux
+##### React / Redux
 
 « The worst mistake a mathematician can make when struggling
 with a problem is to look for a solution into a book. »
