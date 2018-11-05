@@ -77,7 +77,7 @@ balise HTML associent un composant React.
 
 Deux boites a outils permettent d'agir sur le texte :
 * Une pour les changements de style, elle doit s'afficher lorsque du texte est
-sélectionné que ce soit avec la souris ou bien avec le clavier (shift + fleches)
+sélectionné, que ce soit avec la souris ou bien avec le clavier (shift + fleches).
 * L'autre pour les insertions (image, tweet, etc), elle doit s'afficher lorsque
 l'on sélectionne un paragraphe vide, ou bien lorsque l'on clique sur un élément
 préalablement inséré (tout doit être remplaçable).
@@ -92,20 +92,20 @@ Observables sont ensuite créés à partir de ces actions.
 * Pour gérer les événements de la souris, nous créons simplement des Observables à
 partir de l'evenement `mouseUp` de l'objet `window`.
 
-Le gros du travail derrière a consisté à filtrer tous ces événements en fonction
+Le gros du travail derrière a consisté à filtrer ces événements en fonction
 des différents comportements que nous souhaitions et pour éviter les interractions
 avec d'autres parties de l'application. Deux interfaces javascript nous ont été
 particulièrement utiles pour cela :
 * `Selection`, a partir duquel il est aisé de déterminer quelle partie du texte
 est sélectionnée, avec son noeud de départ et de destination.
-* `Range` obtenu depuis un objet `Selection` a partir duquel il est possible de
-manipuler voir de créer artificiellement une sélection de toute pièce.
+* `Range` obtenu depuis un objet `Selection` et avec lequel il est possible de
+manipuler, voir de créer artificiellement une sélection de toute pièce.
 
 #### Analyse et détermination d'état de la sélection
 
 Quand du texte est sélectionné, ou qu'un changement de style à lieu, la selection
-est analysée avec `document.queryCommandState` Cette fonction s'appuie sur le
-style CSS appliqué a l'élément sélectionné pour déterminer son état.
+est analysée avec `document.queryCommandState`. Cette fonction s'appuie sur le
+style CSS appliqué à l'élément sélectionné pour déterminer son état.
 
 Plus de détail sur la documentation officielle de [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Document/queryCommandState)
 
@@ -118,7 +118,7 @@ nous sont fournis par l'interface `Range`.
 
 Une fois l'analyse terminée, une action `REFRESH_BUTTONS_STATE` est dispatchée et
 met à jour l'état de tous les boutons de la boite à outils lorsqu'elle atteint
-son reducer. C'est également cette étape qui peremet de déterminer le _sens_ de
+son reducer. C'est également cette étape qui permet de déterminer le _sens_ de
 certaines mutations (par exemple un titre doit pouvoir être converti de nouveau
 en texte simple et vice versa).
 
@@ -140,10 +140,30 @@ Plus de détail sur la documentation officielle de [MDN](https://developer.mozil
 
 #### Insertion d'éléments
 
+Les insertions sont gérées par une autre boite à outils dédiée. A chaque fois
+que l'utilisateur change de paragraphe, on enregistre l'index de ce paragraphe
+dans le state de l'application. Ainsi, l'utilisateur peut ensuite interagir avec
+l'interface sans risque de perdre l'information de _l'endroit_ ou devra finalement
+être inséré l'élément qu'il aura choisi. En effet, dans le cas de l'insertion
+d'une image par exemple, nous ne maitrisons pas tous les scénarios par lesquels
+l'utilisateur peut passer pour aboutir finalement à son insertion dans le texte.
+Dans notre cas, nous laissons à l'utilisateur la possibilité d'uploader de
+nouvelles images, de les redimentionner et ce sans ordre pré-établi.
+
+Une fois l'image choisie nous pouvons faire appel a un de nos composants générique
+pour construire la structure que nous avons besoin d'insérer. Nous utilisons pour
+cela la fonction utilitaire de React `renderToString` en combinaison avec le
+`DOMParser` natif de javascript, qui transforme une chaîne HTML en hiérarchie
+d'objets de type `Element`, qui peuvent ensuite être rendus par le DOM.
+
+#### Insertion d'éléments : cas du tweet (ou youtube / facebook...)
+
+@TODO
+
 ### Ouverture / conclusion
 
 Même si on manipule directement le DOM, rien n'empêche d'enregistrer la nouvelle
-chaîne HTML obtenue après manipulation, dans le DOM et de refaire une nouvelle
+chaîne HTML obtenue après manipulation, dans le state et de refaire une nouvelle
 projection à partir de celle ci. De cette façon on retrouve la synchronisation
 entre React / Redux et on limite les effets de bords ou la perte de données (en
 cas de changement de route dans le contexte d'une PWA par exemple).
