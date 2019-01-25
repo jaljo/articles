@@ -23,12 +23,12 @@ make it behave exactly the way we want.
 Keep in mind that our text editor development took place whereas the frontend
 website used to publish informations was close to be put online.
 
-Technically speaking, articles are fetched from an HTTP REST API (our backend).
-Some of them were coming from a legacy application, and may contain some broken
-HTML semantic. To address this problem, we decided to develop a parser for the
-received HTML markup to be cleaned. This parser creates React components for,
-and only for HTML tags that we allow. Doing so, only tags that we're sure to
-support are rendered, which also simplifies design and stylization.
+Technically speaking, articles are fetched from an HTTP REST API (our back
+office). Some of them were coming from a legacy application, and may contain
+some broken HTML semantic. To address this problem, we decided to develop a
+parser for the received HTML markup to be cleaned. This parser creates React
+components for, and only for HTML tags that we allow. Doing so, only tags that
+we're sure to support are rendered, which also simplifies design and stylization.
 
 The same parsing logic had to be kept for our text editor as we wanted it to be
 WYSIWYG, i.e. display the edited content like it would be displayed in the
@@ -49,9 +49,12 @@ Our client also needed to insert some more specific medias :
 - tweets (by pasting the tweet URL)
 - Youtube videos (by pasting the video URL)
 
-Although such features may seems very common, complexity shows up because they
-are tighten to our current application (images and videos collections are parts
-of the application state).
+Although such features may seems very common, complexity shows up because our
+text editor fits in a more global administration system. Unlike in a regular
+text editor, where an user can insert images from it's computer, we had to
+direclty rely on images and videos collection used in the back office
+application so that editors can reuse early uploaded / edited medias (e.g. on a
+previous article writing).
 
 These requirements pushed us forward to develop our own text editor from scratch
 rather than using an existing library.
@@ -109,8 +112,15 @@ was a daunting too. Applying such changes on the AST would have been difficult
 for us. In the mean time, the developer who started to work on the AST was
 required on an other project, so we decided not to use this AST anymore. Because
 it was the corner stone of the backend application, keeping it at that level of
-complexity and abstraction was too risky, time consuming to develop and maintain,
-and the learning curve was giving nightmares to newcomers.
+complexity and abstraction was too risky and time consuming to develop also to
+maintain, plus the learning curve was giving nightmares to newcomers. The whole
+project beeing based on functional programing principles, AST development should
+have embraced these principles as well. Thing is, AST manipulation relies mostly
+on one ability to identifiy ancestors of a node, find, update or even remove it
+down through a collection of other nodes. This implies a lot of recursion and
+make immutabilty very hard to preserve. Although it would have been possible to
+achieve such result using advanced FP concepts like algebraic data types, we
+felt that it was definitely not a good bet to take for the project's sake.
 
 We took an other approach to the problem, by using the DOM API to keep the tree
 representation and directly manipulate the view in order to easily add/remove
@@ -118,7 +128,7 @@ HTML elements.
 
 ### Second attempt : manipulating the DOM
 
-So we started digging in the DOM API documentation. We direclty obtain a
+So we started to dig in the DOM API documentation. We direclty obtained a
 rendered view (what we hadn't so far with the AST) and were able to edit it. The
 idea behind this approach was to use the DOM API instead of reimplementing such
 node parsing and manipulation ourselves. Of course, that apporach has drawbacks:
@@ -179,7 +189,8 @@ markup manually).
 
 This is very neat, it enables rich text edition directly in the browser (and
 by the browser :p). And look at that compatibility table, green everywhere ! The
-icing on the cake: conventional shortucts work as well (ctrl+B for bold, etc).
+icing on the cake: because we're working on `contentEditable` tags, conventional
+shortucts work as well (ctrl+B for bold, etc).
 
 Checkout [all the available commands](https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#Commands)
 to see what's possible to do ! Needless to say, when we discovered this, we
