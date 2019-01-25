@@ -11,6 +11,9 @@ representation of our tweet, so it can lately be saved to the API. That way it
 will be easy for us to parse it as a component, and finally display it to the
 end user in the front end application.
 
+The following chart will give you an overview of the actions flow :
+![Insert tweet action flow chart](https://github.com/jaljo/articles/raw/314724209eb27b7b1d61795341934c4783084bee/images/text-editor/RTE.png)
+
 History begins as soon as an user submits the little tweet insertion form.
 Thanks to `redux` action creators, the url of the tweet he wants to insert is
 boxed along with the `INSERT_TWEET` action, which is observed by a first epic.
