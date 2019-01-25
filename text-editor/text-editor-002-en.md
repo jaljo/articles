@@ -229,9 +229,12 @@ part of that article for a detailed workflow on this feature).
 
 ## Implementation
 
-We're using [react](https://reactjs.org/) along with
-[redux](https://react-redux.js.org/)
-and [redux-observable](https://redux-observable.js.org/)
+We're using
+- [react](https://reactjs.org/)
+- [redux](https://react-redux.js.org/)
+- [react-functional-lifecycle](https://github.com/Aloompa/react-functional-lifecycle)
+- [redux-observable](https://redux-observable.js.org/)
+- [ramda](https://ramdajs.com/)
 
 In the following part of this article, we'll assume that you're comfortable with
 these technologies. If you're not, please take some time to understand the core
@@ -272,7 +275,8 @@ export default ({
 As you can see, the view component is pretty simple. We have the two toolboxes
 which are also components. The `article` tag is where all the bindings are
 applied. Inside the `article`, we render the actual text to edit using the
-`children`.
+`children`. We'll first explain how the `TextEditor` component itself works,
+and then we'll dig into the `ParagraphToolbox` and `TextToolbox` components.
 
 As we can have many TextEditor instances on a single page, we have to
 differenciate them. To do so, we simply give them a name (notice the
@@ -321,7 +325,7 @@ the king of HTML tags we support (remember what's explained in the
 [context](#context) section).
 
 The `main` property indicates if this instance of the TextEditor is the main
-ne used on the page.
+instance used on the page.
 
 ### Container
 
@@ -348,7 +352,7 @@ const mapDispatchToProps = (dispatch, props) => ({
 })
 
 // didMount :: Props -> Action.INITIALIZE
-const didMount = ({ initialize }) => initialize()
+const didMount = ({ initialize, main }) => !isNil(main) && initialize()
 
 // willUnmount :: Props -> Action.CLEAR
 const willUnmount = ({ clear, main }) => !isNil(main) && clear()
@@ -365,3 +369,217 @@ export default connect(
   mapDispatchToProps,
 )(lifecycles)
 ```
+
+As we want our component to be connected to the redux store (in order to
+dispatch some actions and to get state values), we're using the
+[`connect`](https://react-redux.js.org/api/connect) method of the `react-redux`
+library.
+We're also hooking into the [component's lifecycles](https://reactjs.org/docs/react-component.html#the-component-lifecycle)
+using the [react-functional-lifecycle](https://github.com/Aloompa/react-functional-lifecycle)
+library to dispatch some redux actions when the component is mounted and will
+be unmounted :
+
+- `didMount` : dispatches an `INITIALIZE` action for the main text editor
+to indicate that it is ready. We have some epics which are listening to this
+event to register some events listeners on the `window.mousedown` event so
+we carefully dispatch this action only once in the case where there are
+multiple text editor instances on the page. The `window.mousedown` listener
+is here to hide the paragraph and text toolboxes when we click outside of
+a text editor.
+- `willUnmount` : dispatches the `CLEAR` action for the main text editor when
+it will be unmounted. The previously `window.mousedown` event listener will
+no longer be used once this action is dispatched.
+
+### Epics
+
+Our epics are exposed with
+[redux-observable](https://redux-observable.js.org/docs/basics/Epics.html).
+
+All our DOM manipulations and media insertion logic is delared here. There
+are also some event listeners to window events.
+To have a better understanding of what's inside the epics, we'll present
+the paragraph and text toolboxes.
+
+## Text toolbox workflow
+
+The text toolbox contains a set of buttons to apply text mutations to the
+selected text :
+
+![text toolbox](/images/text-editor/text-toolbox.png)
+*The text toolbox*
+
+The component's view basically consist into a list of buttons :
+
+```jsx
+<ul>
+  <li>
+    <button
+      className={`ttbx-mutation icomoon-font ${isBold ? 'active' : ''} ${isTitle ? 'disabled' : ''}`}
+      onClick={() => mutate('BOLD')}
+      disabled={isTitle}
+    >4</button>
+  </li>
+</ul>
+```
+*Example of the bold / unbold button*
+
+As for the `TextEditor` component, the `TextToolbox` component is connected to
+the redux store so we can dispatch actions and get state values. On the above
+example, we're using `isBold` and `isTitle` properties which are coming from
+the state.
+The `isTitle` flag is used to disable the  bold / unbold button when the
+selected text is a title as we always want titles to be bold.
+The `isBold` flag is used to whether highlight or not the bold / unbold button
+when the selected text is aleady bold or not (this button behavior is similar
+to the one you'll find on any wording processor).
+When clicked, the button dispatches a `MUTATE` action which would trigger the
+selected text mutation.
+
+**How the flags are determined ?**
+Such flags are dermined by an epic. The epic is executed when we open the
+text toolbox, and also when we apply a text mutation. We simply grab the
+status of the selected text using the
+[`document.queryCommandState`](https://developer.mozilla.org/en-US/docs/Web/API/Document/queryCommandState)
+function. This function returns a boolean indicating whether the given command
+has been executed on the selection range, in other world, it indicates if the
+selection is of the given type :
+
+```js
+const isBold = document.queryCommandState('bold');
+```
+
+Now that we know that, it's pretty easy to determine the state of the text
+toolbox flags by writing an epic :
+
+```js
+// refreshTextToolboxStateEpic :: Observable Action Error -> Observable Action _
+export const refreshTextToolboxStateEpic = (action$, state$, { window }) => action$.pipe(
+    ofType(SHOW_TEXT_TOOLBOX, MUTATE),
+    map(action => [ action, window.getSelection().getRangeAt(0) ]),
+    map(([ action, range ]) => [ action.editorName, ({
+      isBold: document.queryCommandState('bold'),
+      isItalic: document.queryCommandState('italic'),
+      isUnderline: document.queryCommandState('underline'),
+      isTitle: isInParent('h2')(range),
+      isQuote: isInParent('blockquote')(range),
+      isLink: isInParent('a')(range),
+    })]),
+    map(apply(refreshButtonsState)),
+    logObservableError(),
+  )
+```
+
+**How the text is muted ?**
+Once again, we're using an epic for that! As described above, the click on a
+text toolbox button dispatches an action :
+```js
+onClick={() => mutate('BOLD')} // will dispatch a `MUTATE` action having the `BOLD` mutation
+```
+and an epic is listening to the `MUTATE` actions to apply the mutation :
+
+```js
+// mutationEpic :: Observable Action Error -> Observable Action _
+const mutationEpic = action$ =>
+  action$.ofType(MUTATE).pipe(
+    map(prop('mutation')),
+    filter(complement(equals('LINK'))),
+    tap(cond([
+      [equals('TITLE'), () => document.execCommand('formatBlock', false, 'h2')],
+      [equals('PARAGRAPH'), () => document.execCommand('formatBlock', false, 'p')],
+      [equals('ITALIC'), () => document.execCommand('italic')],
+      [equals('BOLD'), () => document.execCommand('bold')],
+      [equals('UNDERLINE'), () => document.execCommand('underline')],
+      [equals('QUOTE'), () => document.execCommand('formatblock', false, 'blockquote')],
+      [equals('UNLINK'), () => document.execCommand('unlink')],
+    ])),
+    ignoreElements(),
+  )
+```
+
+In this epic, we're using the
+[`document.execCommand`](https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand)
+function which is applying the mutation on the selected text.
+
+And voilà ! Muting the text is as simple as that !
+
+## Paragraph toolbox workflow
+
+![paragraph toolbox](/images/text-editor/paragraph-toolbox.png)
+*The paragraph toolbox*
+
+The paragraph toolbox is only displayed when the cursor is in an empty
+paragraph. If you remember, we are dispatching a `SELECT_TEXT` action when a
+text is selected inside the `TextEditor` component :
+
+```jsx
+{ /* TextEditor component's view */ }
+<article
+  onSelect={() => selectText(editorName)}
+>
+  {children}
+</article>
+```
+
+This action is also dispatched when moving the cursor, so it's easy to
+identify when we're on an empty paragraph to display the paragraph toolbox.
+Again, such identification is done in an epic :
+
+```js
+// showParagraphToolboxEpic :: Epic -> Observable Action.SHOW_PARAGRAPH_TOOLBOX
+export const showParagraphToolboxEpic = (action$, state$, { window }) =>
+  action$.pipe(
+    ofType(SELECT_TEXT),
+    map(action => [ action.editorName, window.getSelection()]),
+    filter(compose(isEmptyParagraph, last)),
+    map(([ editor, selection]) => [
+      editor,
+      getParagraphTopPosition(selection),
+      getNodeIndex(editor, selection.anchorNode),
+    ]),
+    map(apply(showParagraphToolbox)),
+    logObservableError(),
+  )
+```
+
+This epic indicates to show the paragraph toolbox for the editor having the
+given `editorName`. We also determine the absolute position at which to
+show the paragraph toolbox. The node index corresponding to the cursor
+is also stored in the redux state to be able to identify where to insert
+medias chosen with the paragraph toolbox.
+
+The paragraph toolbox buttons are not as similar to each other than the ones
+of the text toolbox. They all behave differently and we won't explain all
+the behaviors in this article as it would be too long. However, we'll still
+spend some time on one of these buttons : the tweet insertion.
+
+**<TWEET INSERTION EXPLANATION HERE>**
+
+## Clipboard access
+
+TBW
+
+## Save the edited content
+
+To save the edited content, we simply grab the HTML string inside the DOM node
+of the TextEditor component having the `contentEditable={true}` attribute.
+This HTML string is out editeed text, so we cant send it to our backend to save
+the edited text.
+
+However, there is an extra step before sending anything to the backend. As
+we can insert some third party medias (such as tweets and youtube videos),
+the rendered HTML markup of these medias are present in the HTML string
+to send. We definitely do not want to save the rendered representation
+of these medias, but instead their embed form. For instance, to render tweets,
+we're using the embed HTML markup and then we make a call to the twitter SDK
+which would render a nice and complete tweet from the embed code.
+The rendered forms are always more verbose than the markup forms, so that's
+why we prefer to store only the embed forms in our DB.
+Aditionaly, the legacy text edition application was already working with
+embed code to insert tweets, so we wanted to make this TextEditor
+compatible with the contents edited by the legacy app.
+
+This brings us to the `sanitization` step, where we replace any rendered
+form of complex inserted media by their embed form. To do so, we have to
+keep the embed representation of the media in the application state. We also
+have to identify to which rendered form correspond an embed markup (eg for
+tweets, we're using the tweet id).
