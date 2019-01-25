@@ -16,7 +16,7 @@ Thanks to `redux` action creators, the url of the tweet he wants to insert is
 boxed along with the `INSERT_TWEET` action, which is observed by a first epic.
 
 The HTML markup of a tweet can be obtained by using the twitter API,
-(see here)[https://developer.twitter.com/en/docs/twitter-for-websites/embedded-tweets/overview].
+[see here](https://developer.twitter.com/en/docs/twitter-for-websites/embedded-tweets/overview).
 Because of Cross Origin restriction imposed by twitter API, we cannot directly
 call that API from a browser application. To solve this issue, we created a
 dedicated endpoint in our API (which has been mimiced in the `server` folder of
@@ -37,7 +37,7 @@ That last action is observed by another epic which will perform the actual tweet
 insertion into the DOM (as epic are meant to deal with side effects, it's the
 proper place in the project to do that). How is that ?
 
-(See gist here)[https://gist.github.com/jaljo/4c8f83acc48766b930d7d584fe9ed22b]
+[See gist here](https://gist.github.com/jaljo/4c8f83acc48766b930d7d584fe9ed22b)
 
 As you can see, the `insertTweetNode` function returns a Promise, so it provide
 us a nice way to handle failures at that step of the process. What does that
@@ -74,10 +74,26 @@ that does apparently 'nothing', it help us keep our action stream crystal clear.
 
 Guess what ? That action is observed too !
 
-(See gist here)[https://gist.github.com/jaljo/006cab23716b9076dfcd5b2032d03081]
+[See gist here](https://gist.github.com/jaljo/006cab23716b9076dfcd5b2032d03081)
 
 That epic check for the twitter SDK presence in the window object using the
 `filter` operator. Noticed how we pass the window object as a dependency of
 the Epic ? This life saving feature is given by rxjs 6 and help us to keep our
 epics as pure as possible. By letting us the ability to mock the window object
 (or our fetchApi, which alos comes as a dependency), testing is way simpler.
+Here is a brief explanation of what the epic actually do :
+
+- The tweet widget is created by a call to the Twitter SDK, which relies on the
+tweetId extracted from the URL and an HTML element. Those two elements are
+derived of the original action payload (remember how we map them in the resolved
+promise of the `insertTweetNode` function).
+- Once this has be done, we dispatch last (phew !) `TWEET_RENDERED` action to
+resolve our Observable stream.
+
+That final action is reduced for the rendered tweet markup to be appened to a
+collection of others rendered tweets on the same page. We do that because at
+some time, we will need to actually **save** the content of our text editor in
+the database. And because of the SDK call, the tweet widget is totally messed up
+with some iframe and shallow content. By saving the original HTML markup in the
+application state, we found a way to recover the clean part of each tweet and to
+only persist a minimal and clean string.
