@@ -328,7 +328,8 @@ will be edited.
 
 The `main` property indicates if this instance of the TextEditor is the main
 instance used on the page. We're using this prop to filter some actions that
-only needs to be performed over that main text editor (see container below).
+only needs to be performed over that main text editor (see the  container
+chapter below).
 
 ### Container
 
@@ -400,7 +401,7 @@ Our epics are exposed with
 All our DOM manipulations and media insertion logic is done here. Notice that
 observable streams are created from both actions and window events.
 To have a better understanding of what's inside the epics, we'll present
-the paragraph and text toolboxess.
+the paragraph and text toolboxes.
 
 ## Text toolbox workflow
 
@@ -456,8 +457,8 @@ by an epic which will actually perform the selected text mutation.
 A dedicated epic is executed both when we open the text toolbox, and also when
 applying a text mutation. Selected text's state is automagically guessed using
 [`document.queryCommandState`](https://developer.mozilla.org/en-US/docs/Web/API/Document/queryCommandState)
-function. This function relies on CSS style and return a boolean indicating if
-the selection is of the given type :
+function. This function returns a boolean indicating if the selection is of the
+given type :
 
 ```js
 const isBold = document.queryCommandState('bold');
