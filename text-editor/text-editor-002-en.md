@@ -573,14 +573,18 @@ implies a direct communication between javascript and the external world with
 almost no way to control what's comming from it. In the past, several workaround
 involving extreme methods such as `iframe` and even `flash` (brrrr) were used.
 Lately, the well known `document.execCommand('paste')` came to the rescue, but
-was still very limitated due to security concerns.
+was still very limitated due to security concerns. See
+[that link](https://frontendnews.io/editions/2018-08-01-copy-and-paste-clipboard-api)
+for details.
 
-A more recent approach is to use the new clipboard API, which provide an elegant
-and secured way to access the user clipboard (as soon as he gaves the app his
-permission to do so) and let us work with Promises in return. This feature is
-still at experimental state and the API is likely to evolve in the future. We
-use it anyway, because it's what fits our user need the best, and we were lucky
-enough for the compatibility tables to match his environment.
+A more recent approach is to use the
+[new clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API),
+which provide an elegant and secured way to access the user clipboard (as soon
+as he gaves the app his permission to do so) and let us work with Promises in
+return. This feature is still at experimental state and the API is likely to
+evolve in the future. We use it anyway, because it's what fits our user need the
+best, and we were lucky enough for the compatibility tables to match his
+environment.
 
 If you recall, an `onPaste` handler was binded to the article editor. It is
 triggered either when user pastes text from the shortcut key combination CTRL+V
