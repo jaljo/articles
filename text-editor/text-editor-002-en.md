@@ -273,34 +273,36 @@ export default ({
 ```
 
 As you can see, the view component is pretty simple. We have the two toolboxes
-which are also components. The `article` tag is where all the bindings are
-applied. Inside the `article`, we render the actual text to edit using the
-`children`. We'll first explain how the `TextEditor` component itself works,
-and then we'll dig into the `ParagraphToolbox` and `TextToolbox` components.
+which are also components. All bindings are applied to the `article` tag. Inside
+that tag, we render the actual text to edit using the `children` prop. We'll
+first explain how the `TextEditor` component itself works, then we'll dig into
+the `ParagraphToolbox` and `TextToolbox` components.
 
-As we can have many TextEditor instances on a single page, we have to
-differenciate them. To do so, we simply give them a name (notice the
-`editorName` prop).
-About the other params :
+As we can have many TextEditor instances on a single page, they have to be
+differenciated. To do so, we simply give them a name (notice the `editorName`
+prop).
+About other parameters :
 - `contentEditable={true}` applies the
 [`contenteditable`](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Editable_content)
 attribute to the `article` node so we can edit its content.
 - `suppressContentEditableWarning={true}` indicates to react not to print a
-warning in the console about content editable node.
+warning in the console about content editable nodes.
 - `onClick={e => click(editorName, e.targe)}` the handler to call when we click
 on the edited text. It will be used to display the paragraph toolbox when
-clicking on an empty paragraph for instance.
+clicking on an early inserted media.
 - `onKeyDown={keyDown}` the handler to call when we press a key down. It will
-be used to hide the paragraph toolbox when we start to type into an empty
-paragraph.
+be used to insert new empty paragraphs in the text editor.
 - `onPaste={paste}` the handler to call when we want to paste some text from
-the clipboard. We will read the clipboard content to fetch its text.
+the clipboard. We will read the user clipboard content to fetch its text.
 - `onSelect={() => selectText(editorName)}` the handler to call when a text
-inside this node is [selected](https://reactjs.org/docs/events.html#selection-events)
+inside this node is [selected](https://reactjs.org/docs/events.html#selection-events).
+This event is fired either when selecting text using shift key with arrow keys
+or by highlighting it with the mouse. It will mostly be used to show or hide
+toolboxes.
 
 All the above handlers are dispatching redux actions. This allows us to
 listen to these actions inside epics (thanks to `redux-observable`) and
-to apply some changes.
+to apply desired changes in the application.
 
 In the end, this is how we use this component :
 
@@ -319,13 +321,15 @@ In the end, this is how we use this component :
 </TextEditor>
 ```
 
-The `TextEditor` is wrapping a `Widget` component tree, which is what would
-be edited. The `Widget` component is our component responsible to render all
-the king of HTML tags we support (remember what's explained in the
-[context](#context) section).
+The `TextEditor` is wrapping a `Widget` component tree, which is our component
+responsible to render the HTML tags we support (remember what's explained in the
+[context](#context) section). The resulting sanitized components are those which
+will be edited.
 
 The `main` property indicates if this instance of the TextEditor is the main
-instance used on the page.
+instance used on the page. We're using this prop to filter some actions that
+only needs to be performed over that main text editor (see the container
+chapter below).
 
 ### Container
 
@@ -371,38 +375,37 @@ export default connect(
 ```
 
 As we want our component to be connected to the redux store (in order to
-dispatch some actions and to get state values), we're using the
+dispatch actions and to get state values), we're using the
 [`connect`](https://react-redux.js.org/api/connect) method of the `react-redux`
 library.
 We're also hooking into the [component's lifecycles](https://reactjs.org/docs/react-component.html#the-component-lifecycle)
 using the [react-functional-lifecycle](https://github.com/Aloompa/react-functional-lifecycle)
-library to dispatch some redux actions when the component is mounted and will
+library to dispatch redux actions when the component is mounted and will
 be unmounted :
 
 - `didMount` : dispatches an `INITIALIZE` action for the main text editor
-to indicate that it is ready. We have some epics which are listening to this
-event to register some events listeners on the `window.mousedown` event so
-we carefully dispatch this action only once in the case where there are
-multiple text editor instances on the page. The `window.mousedown` listener
-is here to hide the paragraph and text toolboxes when we click outside of
-a text editor.
+to indicate when it is ready. An epic is listening to this event and
+register events listeners on the `window.mousedown` event. This action only has
+to be dispatched once in the case where there are multiple text editor instances
+on the same page. The `window.mousedown` listener is used to hide paragraph and
+text toolboxes when we click outside of a text editor.
 - `willUnmount` : dispatches the `CLEAR` action for the main text editor when
-it will be unmounted. The previously `window.mousedown` event listener will
-no longer be used once this action is dispatched.
+it will be unmounted. This action is observed by the same epic to unregister the
+`window.mousedown` event listener.
 
 ### Epics
 
 Our epics are exposed with
 [redux-observable](https://redux-observable.js.org/docs/basics/Epics.html).
 
-All our DOM manipulations and media insertion logic is delared here. There
-are also some event listeners to window events.
+All our DOM manipulations and media insertion logic is done here. Notice that
+observable streams are created from both actions and window events.
 To have a better understanding of what's inside the epics, we'll present
 the paragraph and text toolboxes.
 
 ## Text toolbox workflow
 
-The text toolbox contains a set of buttons to apply text mutations to the
+The text toolbox contains a set of buttons to apply text mutations over the
 selected text :
 
 ![text toolbox](/images/text-editor/text-toolbox.png)
@@ -423,33 +426,46 @@ The component's view basically consist into a list of buttons :
 ```
 *Example of the bold / unbold button*
 
-As for the `TextEditor` component, the `TextToolbox` component is connected to
-the redux store so we can dispatch actions and get state values. On the above
-example, we're using `isBold` and `isTitle` properties which are coming from
-the state.
+Like the `TextEditor` component, the `TextToolbox` is connected to the redux
+store. On the above example, we're using `isBold` and `isTitle` properties which
+are coming from the state :
+
+```js
+export const INSTANCE_INITIAL_STATE = {
+  visible: false,
+  top: 0,
+  isLinkCreatorOpened: false,
+  range: null,
+  isBold: false,
+  isItalic: false,
+  isUnderline: false,
+  isTitle: false,
+  isQuote: false,
+  isLink: false,
+}
+```
+
 The `isTitle` flag is used to disable the  bold / unbold button when the
-selected text is a title as we always want titles to be bold.
+selected text is a title (we always want titles to be bold).
 The `isBold` flag is used to whether highlight or not the bold / unbold button
 when the selected text is aleady bold or not (this button behavior is similar
 to the one you'll find on any wording processor).
-When clicked, the button dispatches a `MUTATE` action which would trigger the
-selected text mutation.
+When clicked, the button dispatches a `MUTATE` action. That action is observed
+by an epic which will actually perform the selected text mutation.
 
-**How the flags are determined ?**
-Such flags are dermined by an epic. The epic is executed when we open the
-text toolbox, and also when we apply a text mutation. We simply grab the
-status of the selected text using the
+**How these flags values are determined ?**
+A dedicated epic is executed both when we open the text toolbox, and also when
+applying a text mutation. Selected text's state is automagically guessed using
 [`document.queryCommandState`](https://developer.mozilla.org/en-US/docs/Web/API/Document/queryCommandState)
-function. This function returns a boolean indicating whether the given command
-has been executed on the selection range, in other world, it indicates if the
-selection is of the given type :
+function. This function returns a boolean indicating if the selection is of the
+given type :
 
 ```js
 const isBold = document.queryCommandState('bold');
 ```
 
-Now that we know that, it's pretty easy to determine the state of the text
-toolbox flags by writing an epic :
+Knowing that, it's pretty easy to determine the state of every text toolbox
+flags by writing an epic :
 
 ```js
 // refreshTextToolboxStateEpic :: Observable Action Error -> Observable Action _
@@ -469,13 +485,13 @@ export const refreshTextToolboxStateEpic = (action$, state$, { window }) => acti
   )
 ```
 
-**How the text is muted ?**
-Once again, we're using an epic for that! As described above, the click on a
-text toolbox button dispatches an action :
+**How the text is mutated ?**
+Once again, we're using an epic for that! Recall the click on a text toolbox
+button dispatches an action :
 ```js
 onClick={() => mutate('BOLD')} // will dispatch a `MUTATE` action having the `BOLD` mutation
 ```
-and an epic is listening to the `MUTATE` actions to apply the mutation :
+and our epic is observing this `MUTATE` action to apply the correct mutation :
 
 ```js
 // mutationEpic :: Observable Action Error -> Observable Action _
@@ -496,11 +512,11 @@ const mutationEpic = action$ =>
   )
 ```
 
-In this epic, we're using the
+This epic executes the
 [`document.execCommand`](https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand)
-function which is applying the mutation on the selected text.
+function, which is applying the mutation over the selected text.
 
-And voilà ! Muting the text is as simple as that !
+And voilà ! Mutating the text is as simple as that !
 
 ## Paragraph toolbox workflow
 
@@ -508,8 +524,8 @@ And voilà ! Muting the text is as simple as that !
 *The paragraph toolbox*
 
 The paragraph toolbox is only displayed when the cursor is in an empty
-paragraph. If you remember, we are dispatching a `SELECT_TEXT` action when a
-text is selected inside the `TextEditor` component :
+paragraph. Remember we're dispatching a `SELECT_TEXT` action when a text is
+selected inside the `TextEditor` component :
 
 ```jsx
 { /* TextEditor component's view */ }
@@ -520,9 +536,9 @@ text is selected inside the `TextEditor` component :
 </article>
 ```
 
-This action is also dispatched when moving the cursor, so it's easy to
-identify when we're on an empty paragraph to display the paragraph toolbox.
-Again, such identification is done in an epic :
+This action is also dispatched when moving the cursor, so it make it easy to
+identify when we're on an empty paragraph and display the paragraph toolbox.
+Once more, all this logic is done in an epic :
 
 ```js
 // showParagraphToolboxEpic :: Epic -> Observable Action.SHOW_PARAGRAPH_TOOLBOX
@@ -541,16 +557,15 @@ export const showParagraphToolboxEpic = (action$, state$, { window }) =>
   )
 ```
 
-This epic indicates to show the paragraph toolbox for the editor having the
-given `editorName`. We also determine the absolute position at which to
-show the paragraph toolbox. The node index corresponding to the cursor
-is also stored in the redux state to be able to identify where to insert
-medias chosen with the paragraph toolbox.
+This epic show the paragraph toolbox for, and only for, the editor having the
+right `editorName`. The absolute position at which the paragraph toolbox will be
+shown is computed from there. The node index corresponding to the paragraph
+in which the cursor is is also stored in the redux state. It will later be used
+to insert medias chosen with the paragraph toolbox.
 
-The paragraph toolbox buttons are not as similar to each other than the ones
-of the text toolbox. They all behave differently and we won't explain all
-the behaviors in this article as it would be too long. However, we'll still
-spend some time on one of these buttons : the tweet insertion.
+Unlike the text toolbox buttons, paragraph toolobx buttons each behave
+differently. Explaining them all will be too long, we'll rather focus on an
+obvious example. For other cases, feel free to check the source code !
 
 **<TWEET INSERTION EXPLANATION HERE>**
 
