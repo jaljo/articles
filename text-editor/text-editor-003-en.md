@@ -1,8 +1,9 @@
 ## Insertion of a tweet : a case study
 
 In this chapter, we will try to give a better insight of how the whole thing is
-working, by breaking down the insertion of a tweet case and the components
-involved in it's workflow.
+working, by breaking down a simple use case and the components involved in it's
+workflow. The main idea of this use case was to give users the simplest way to
+insert a tweet, only by pasting a link, without any HTML edition required.
 
 ### Getting the HTML markup from twitter
 
@@ -12,7 +13,7 @@ will be easy for us to parse it as a component, and finally display it to the
 end user in the front end application.
 
 The following chart will give you an overview of the actions flow :
-![Insert tweet action flow chart](https://github.com/jaljo/articles/raw/314724209eb27b7b1d61795341934c4783084bee/images/text-editor/RTE.png)
+![Insert tweet action flow chart](/images/text-editor/RTE.png)
 
 History begins as soon as an user submits the little tweet insertion form.
 Thanks to `redux` action creators, the url of the tweet he wants to insert is
@@ -34,12 +35,68 @@ thing, then dispatch another action) allow them to be easily tested. That is,
 your fellow developpers dont want to break your legs when the prod crashes
 (which will happend, but that's another story).
 
-### Inserting the tweet into the DOM
+### Inserting the embed tweet into the DOM
 
-That last action is observed by another epic which will perform the actual tweet
-insertion into the DOM (as epic are meant to deal with side effects, it's the
-proper place in the project to do that). How is that ?
+That last action is observed by another epic which will insert the embed tweet
+code into the DOM. (as epic are meant to deal with side effects, it's the
+proper place in the project to do that). The actual tweet rendering will be done
+later by another epic. How is that ?
 
+```js
+// insertTweetEpic :: Epic -> Observable Action.TWEET_INSERTED Action.ERROR
+export const insertTweetEpic = (action$, state$) => action$.pipe(
+  ofType(EMBED_TWEET_FETCHED),
+  withLatestFrom(state$),
+  mergeMap(([ action, state ]) => from(
+    insertTweetNode(action, state.TextEditor),
+  ).pipe(
+    map(apply(tweetInserted)),
+    catchError(() => of(error(action.editorName))),
+  )),
+)
+
+// insertTweetNode :: (Object, State.TextEditor) -> Promise
+const insertTweetNode = ({ editorName, url, html }, textEditor) => new Promise(resolve => {
+  const tweetId = getTweetIdFromUrl(url);
+  const uid = uniqid(tweetId);
+
+  const newNode = pipe(
+    tap(e => e.innerHTML = renderToString(UnconnectedTweet(tweetId, uid), 'text/html')),
+    prop('firstChild'),
+  )(document.createElement('div'));
+
+  insertNewNodeAtIndex(
+    newNode,
+    textEditor.ParagraphToolbox[editorName].targetNodeIndex,
+    editorName,
+  );
+
+  const originalHtmlMarkup = pipe(
+    tap(e => e.innerHTML = html),
+    // only grab the `blockquote` tag, not the `script` tag
+    e => e.firstChild.outerHTML,
+  )(document.createElement('div'));
+
+  resolve([ editorName, tweetId, uid, originalHtmlMarkup ]);
+})
+
+// insertNewNodeAtIndex :: (Element, Number, String) -> _
+export const insertNewNodeAtIndex = (newNode, targetIndex, editorName) =>
+  getEditor(editorName).replaceChild(
+    newNode,
+    nth(targetIndex, getRootNodesAsArray(editorName)),
+  );
+
+// getRootNodesAsArray :: String -> [Node]
+export const getRootNodesAsArray = editorName => Array.from(
+  getEditor(editorName).childNodes,
+)
+
+// getEditor :: String -> Node
+export const getEditor = editorName => document.querySelector(
+  `.edited-text-root[data-editor-name="${editorName}"]`
+)
+```
 [See gist here](https://gist.github.com/jaljo/4c8f83acc48766b930d7d584fe9ed22b)
 
 As you can see, the `insertTweetNode` function returns a Promise, so it provide
@@ -77,6 +134,26 @@ that does apparently 'nothing', it help us keep our action stream crystal clear.
 
 Guess what ? That action is observed too !
 
+```js
+// renderTweetEpic :: (Observable Action Error, Observable State Error, Object) -> Observable Action _
+export const renderTweetEpic = (action$, state$, { window }) =>
+  action$.pipe(
+    ofType(RENDER_TWEET),
+    filter(() => window.twttr),
+    map(action => ({
+      ...action,
+      element: document.getElementById(`tweet-${action.uid}`),
+    })),
+    filter(prop('element')),
+    mergeMap(({ tweetId, originalHtmlMarkup, element }) => Promise.all([
+      tweetId,
+      originalHtmlMarkup,
+      window.twttr.widgets.createTweet(tweetId, element),
+    ])),
+    map(([ tweetId, originalHtmlMarkup ]) => tweetRendered(tweetId, originalHtmlMarkup)),
+    logObservableError(),
+  )
+```
 [See gist here](https://gist.github.com/jaljo/006cab23716b9076dfcd5b2032d03081)
 
 That epic check for the twitter SDK presence in the window object using the
