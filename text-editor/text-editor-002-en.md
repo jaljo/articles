@@ -111,8 +111,8 @@ selection start   selection end
 was a daunting too. Applying such changes on the AST would have been difficult
 for us. In the mean time, the developer who started to work on the AST was
 required on an other project, so we decided not to use this AST anymore. Because
-it was the corner stone of the backend application, keeping it at that level of
-complexity and abstraction was too risky and time consuming to develop also to
+it was the corner stone of the back office application, keeping it at that level
+of complexity and abstraction was too risky and time consuming to develop also to
 maintain, plus the learning curve was giving nightmares to newcomers. The whole
 project beeing based on functional programing principles, AST development should
 have embraced these principles as well. Thing is, AST manipulation relies mostly
