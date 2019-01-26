@@ -328,7 +328,7 @@ will be edited.
 
 The `main` property indicates if this instance of the TextEditor is the main
 instance used on the page. We're using this prop to filter some actions that
-only needs to be performed over that main text editor (see the  container
+only needs to be performed over that main text editor (see the container
 chapter below).
 
 ### Container
