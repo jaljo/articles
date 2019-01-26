@@ -629,3 +629,28 @@ export const sanitizeContentBody = renderedTweets => pipe(
 doing so, we're sure to persist in DB a valid string :)
 
 The saved string can then be used by the public website to display the article.
+
+
+## Conclusion
+
+Phew ! That was a long ride ! Congratulations for staying with us so far ;)
+At the time of writing, the text editor is still being improved following
+the feedbacks of the end users. We described it as it is when we wrote this
+article.
+As an improvement, there is the ability to move some selected text by dragging
+and dropping it at the desired place.
+Such improvements could lead to an other blog post.
+
+It was a good excercice to develop it, and in the end, the concepts are most
+of all very simple. We learned a lot on the native browser functionalities
+and we are amazed by the possibilities of these sofwares !
+We also hope that this article helped you to discover new concepts :)
+
+You can clone the text editor and see the code for all the other features on
+this repository : [https://github.com/jaljo/rich-text-editor](https://github.com/jaljo/rich-text-editor).
+
+Thanks for reading,
+that's all folks !
+
+
+Joris Langlois and Nicolas Mure from [knplabs.com](http://knplabs.com/en).
