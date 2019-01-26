@@ -556,7 +556,84 @@ spend some time on one of these buttons : the tweet insertion.
 
 ## Clipboard access
 
-TBW
+Using `contentEditable` tags rather than regular form elements such as `input`
+has drawbacks. Say that our end users need to paste text from other sources to
+write articles. Doing so in an input element, everything works just great. You
+get rid of non textual elements, and end up with a raw string ready to be
+submitted. When pasting in contentEditable element, things are way different:
+The browser will try to render the pasted text as close as possible from of the
+original copied text, resulting in massive and ugly inline style everywhere.
+This completely messed up our editor because it violated the sanitization logic
+it's based on.
+
+We had to find a way to sanitize (once more !) the user clipboard, to ensure
+only raw text is pasted from external sources. Problem is, clipboard interaction
+is one of the most obvious security breach in web application, because it
+implies a direct communication between javascript and the external world with
+almost no way to control what's comming from it. In the past, several workaround
+involving extreme methods such as `iframe` and even `flash` (brrrr) were used.
+Lately, the well known `document.execCommand('paste')` came to the rescue, but
+was still very limitated due to security concerns.
+
+A more recent approach is to use the new clipboard API, which provide an elegant
+and secured way to access the user clipboard (as soon as he gaves the app his
+permission to do so) and let us work with Promises in return. This feature is
+still at experimental state and the API is likely to evolve in the future. We
+use it anyway, because it's what fits our user need the best, and we were lucky
+enough for the compatibility tables to match his environment.
+
+If you recall, an `onPaste` handler was binded to the article editor. It is
+triggered either when user pastes text from the shortcut key combination CTRL+V
+or via contextual menu. That handler prevents the browser default behavior and
+like every other handlers of this component, dispatches a `PASTE` action which
+is observed by an epic:
+
+```js
+// checkClipboardAccessEpic :: Epic -> Observable Action.PASTE_GRANTED Action.DISPLAY_CLIPBOARD_WARNING
+const checkClipboardAccessEpic = action$ => action$.pipe(
+  ofType(PASTE),
+  mergeMap(() => navigator.permissions.query({'name': 'clipboard-read'})),
+  mergeMap(ifElse(
+    isClipboardAccessGranted,
+    () => navigator.clipboard.readText().then(pasteGranted),
+    () => [displayClipboardWarning()],
+  )),
+  logObservableErrorAndTriggerAction(displayClipboardSupportError),
+)
+```
+
+This first epic check for the clipboard access and dispatches an error message
+if that permission is not granted. When everything is fine, a `PASTE_GRANTED`
+action carrying the pasted text read from the clipboard is dispatched. Another
+epic observes that action and will insert the pasted text at the right place.
+
+```js
+// pasteCopiedTextEpic :: Epic -> Observable Action.TEXT_PASTED
+const pasteCopiedTextEpic = (action$, state$, { window }) =>
+  action$.pipe(
+    ofType(PASTE_GRANTED),
+    map(prop('textToPaste')),
+    tap(textToPaste => ifElse(
+      isEmptyParagraph,
+      pasteTextInParagraph(textToPaste),
+      pasteTextInExistingText(textToPaste),
+    )(window.getSelection())),
+    map(textPasted),
+    logObservableError(),
+  )
+```
+
+Two cases are to be distinguised:
+- When pasting in an empty paragraph, things are quite simple. We only replace
+the paragraph `innerHTML` by the user text.
+- When pasting in an already existing paragraph, it's content has to be updated
+so the new text is inserted **between** existing one (if the selection is empty)
+or **replace the current selection**. String manipulation is to be done here
+that are delegated to an external `pasteTextInExistingText` function to kee the
+epic as clear as possible.
+
+Once the text has been pasted, a `TEXT_PASTED` action is dispatched so the
+observable stream is resolved :).
 
 ## Save the edited content
 
