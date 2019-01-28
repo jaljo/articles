@@ -968,4 +968,5 @@ this repository : [https://github.com/jaljo/rich-text-editor](https://github.com
 Thanks for reading,
 that's all folks !
 
-Joris Langlois and Nicolas Mure from [knplabs.com](http://knplabs.com/en).
+[Joris Langlois](https://github.com/jaljo) and [Nicolas Mure](https://github.com/nicolasmure)
+from [knplabs.com](http://knplabs.com/en).
