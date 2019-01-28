@@ -1,11 +1,12 @@
 # How we built a medium like rich text editor
 
 This article synthethises the reflexion we went through during the conception
-and developpment of a web based rich text editor. We'll first focus on the
-situation which led us to that developpment, then we'll explain the different
-pathes we took to solve the problem and the one we finally chose.
+and development of a web based rich text editor. We'll first focus on the
+situation which led us to that development, then we'll explain the different
+paths we took to solve the problem and the one we finally chose.
 
-See TL;DR at the end of the article for those of you who are speed up ;)
+See [TL;DR](#tldr) at the end of the article for those of you who are in a
+hurry ;)
 
 # Table of contents
 1. [Context](#context)
@@ -33,32 +34,32 @@ See TL;DR at the end of the article for those of you who are speed up ;)
 
 ## Context
 
-We're working for an information company. They publish many contents on their
+We're working for a news company. They publish many contents on their
 website, most of the time represented as articles or as a collection of
-articles (they call it `topics`). As the company is working in the information
-business, they also post some `news`. News are small texts, which may contain
-tweets or links to other articles.
+articles (they call it `topics`). As the company is working in the news
+business, they also post some `news`. News, in this case, are small texts, which
+may contain tweets or links to other articles.
 
 Editors and web managers needed a tool to be able to create and edit these kinds
 of contents. These will be saved in our database as an HTML string.
 
-There alreay is many text edition tools online, but we wanted a tool which
+There alreay are many text edition tools online, but we wanted a tool which
 looks close to the modern text editor of [medium.com](https://medium.com/).
 Some open source libraries are offering such solution, but most of the time,
 when specific needs arise, they no longer fulfill all your
 requirements. And here you are on the highway of awfull tweaks... Instead of
-spending time to develop additional features on top of an existing library (with
+spending time developing additional features on top of an existing library (with
 all drawbacks implied), we decided to implement our own tool. That way, we could
-make it behave exactly the way we want.
+make it behave exactly the way we wanted.
 
 Keep in mind that our text editor development took place whereas the frontend
-website used to publish informations was close to be put online.
+website used to publish information was close to be put online.
 
-Technically speaking, articles are fetched from an HTTP REST API (our back
-office). Some of them were coming from a legacy application, and may contain
+Technically speaking, articles are fetched from an HTTP REST API (our backend).
+Some of them were coming from a legacy application, and may contain
 some broken HTML semantic. To address this problem, we decided to develop a
 parser for the received HTML markup to be cleaned. This parser creates React
-components for, and only for HTML tags that we allow. Doing so, only tags we're
+components for and only for HTML tags that we allow. Doing so, only tags we're
 sure to support are rendered, which also simplifies design and stylization.
 
 The same parsing logic had to be kept for our text editor, as we wanted it to be
@@ -67,7 +68,7 @@ with the ability to directly edit it.
 
 ## The specs
 
-The text editor sould provide the basic fatures of text edition :
+The text editor should provide the basic features of text edition :
 - apply some style to a portion of text (bold, italic, underlined)
 - create an HTTP link
 - create some paragraphs
@@ -80,9 +81,9 @@ Our client also needed to insert some more specific medias :
 - tweets (by pasting the tweet URL)
 - Youtube videos (by pasting the video URL)
 
-Although such features may seems very common, complexity shows up because our
+Although such features may seem very common, complexity shows up because our
 text editor fits in a more global administration system. Unlike in a regular
-text editor, where an user can insert images browsed from it's computer, we had
+text editor, where a user can insert images browsed from their computer, we had
 to direclty work with images and videos collection used in the back office
 application. That is, editors could reuse early uploaded or edited medias (e.g.
 on a previous article writing).
@@ -113,7 +114,7 @@ following text node
 ```
 [See gist here](https://gist.github.com/jaljo/b07574e0dff05acaa996a207d2a68fd3)
 
-was succesfully transformed as a child of an other node when trying to make it
+was succesfully transformed as a child of another node when trying to make it
 bold :
 
 ```js
@@ -133,7 +134,7 @@ bold :
 
 However, things were getting way more complicated from the moment we worked on
 more edgy cases, i.e. update some text that was starting in a paragraph and
-ending in an other. Selection overlapsing on different and nested tags, such as
+ending in another. Selection overlapsing on different and nested tags, such as
 
 ```
 <b>Hello <em>John Doe</em></b>, how are you ?
@@ -143,21 +144,21 @@ selection start   selection end
 [See gist here](https://gist.github.com/jaljo/0408185bff348ba189fd79aec1984931)
 
 was a daunting too. Applying such changes on the AST would have been difficult
-for us. In the mean time, the developer who started to work on the AST was
-required on an other project, so we decided not to use this AST anymore. Because
+for us. In the meantime, the developer who started to work on the AST was
+required on another project, so we decided not to use this AST anymore. Because
 it was the corner stone of the back office application, keeping it at that level
 of complexity and abstraction was too risky and time consuming to develop also
 to maintain, plus the learning curve was giving nightmares to newcomers.
 The whole project beeing based on functional programing principles, AST
-development should have embraced these principles as well. Thing is, AST
-manipulation relies mostly on one ability to identifiy ancestors of a node,
+development should have embraced these principles as well. The thing is, AST
+manipulation relies mostly on one ability to identify ancestors of a node,
 find, update or even remove it down through a collection of other nodes.
-This implies a lot of recursion and make immutabilty very hard to preserve.
+This implies a lot of recursion and makes immutabilty very hard to preserve.
 Although it would have been possible to achieve such result using advanced FP
 concepts like algebraic data types, we felt that it was definitely not a good
 bet to take for the project's sake.
 
-We took an other approach to the problem, by using the DOM API to keep the tree
+We took another approach to the problem, by using the DOM API to keep the tree
 representation and directly manipulate the view. Using this API, navigating
 through the DOM tree became a piece of cake, each node having the following
 attributes:
@@ -221,7 +222,7 @@ increase and we were discovering more and more edge cases, which were a PITA to
 cover.
 
 Finally, down the corner of a murky russian Stackoverflow thread we found it.
-The method which would have saved us all.
+The method which saved us all.
 
 ### The holy grail : document.execCommand
 
@@ -241,7 +242,7 @@ markup manually).
 This is very neat, it enables rich text edition directly in the browser (and
 by the browser :p). And look at that compatibility table, green everywhere !
 Icing on the cake: because we're working on `contentEditable` tags, conventional
-shortucts are working as well (CTRL+B for bold, etc).
+shortcuts are working as well (CTRL+B for bold, etc).
 
 Checkout [all the available commands](https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#Commands)
 to see what's possible to do ! Needless to say, when we discovered this, we
@@ -289,8 +290,8 @@ We're using
 - [ramda](https://ramdajs.com/)
 
 In the following part of this article, we'll assume that you're comfortable with
-these technologies. If you're not, please take some time to understand the core
-principles of them.
+these technologies. If you're not, please take some time to understand their
+core principles.
 
 ### View
 
@@ -377,13 +378,13 @@ In the end, this is how we use this component :
 [See gist here](https://gist.github.com/jaljo/9f8e07140c334f44d4a944008827e405)
 
 The `TextEditor` is wrapping a `Widget` component tree, which is the component
-responsible to render the HTML tags we support (remember what's explained in the
-[context](#context) section). The resulting sanitized components are those which
-will be edited.
+responsible for rendering the HTML tags we support (remember what's explained in
+the [context](#context) section). The resulting sanitized components are those
+which will be edited.
 
 The `main` property indicates if this instance of the TextEditor is the main
 instance used on the page. We're using this prop to filter some actions that
-only needs to be performed over that main text editor (see the container
+only need to be performed over that main text editor (see the container
 chapter below).
 
 ### Container
@@ -454,7 +455,7 @@ it will be unmounted. This action is observed by the same epic to unregister the
 Our epics are exposed with
 [redux-observable](https://redux-observable.js.org/docs/basics/Epics.html).
 
-All the DOM manipulations and media insertion logic is done here. Notice that
+All the DOM manipulations and media insertion logic are done here. Notice that
 observable streams are created from both actions and window events.
 To have a better understanding of what's inside epics, we'll present
 the paragraph and text toolboxes ones.
@@ -467,7 +468,7 @@ selected text :
 ![text toolbox](/images/text-editor/text-toolbox.png)
 *The text toolbox*
 
-The component's view basically consist into a list of buttons :
+The component's view basically consists of a list of buttons :
 
 ```js
 <ul>
@@ -507,14 +508,14 @@ export const INSTANCE_INITIAL_STATE = {
 The `isTitle` flag is used to disable the  bold / unbold button when the
 selected text is a title (we always want titles to be bold).
 The `isBold` flag is used to whether highlight or not the bold / unbold button
-when the selected text is aleady bold or not (this button behavior is similar
+when the selected text is already bold or not (this button behavior is similar
 to the one you'll find on any wording processor).
 When clicked, the button dispatches a `MUTATE` action. That action is observed
 by an epic which will actually perform the selected text mutation.
 
-**How these flags values are determined ?**
-A dedicated epic is executed both when we open the text toolbox, and also when
-applying a text mutation. Selected text's state is automagically guessed using
+**How are these flags values determined ?**
+A dedicated epic is executed both when we open the text toolbox and apply a text
+mutation. Selected text's state is automagically guessed using
 [`document.queryCommandState`](https://developer.mozilla.org/en-US/docs/Web/API/Document/queryCommandState)
 function. This function returns a boolean indicating if the selection is of the
 given type :
@@ -546,7 +547,7 @@ export const refreshTextToolboxStateEpic = (action$, state$, { window }) => acti
 ```
 [See gist here](https://gist.github.com/jaljo/97a4648a42a9ca2b81ecfc313d81d837)
 
-**How the text is mutated ?**
+**How is the text mutated ?**
 Once again, we're using an epic for that! Recall the click on a text toolbox
 button dispatches an action:
 ```js
@@ -600,7 +601,7 @@ selected inside the `TextEditor` component:
 ```
 [See gist here](https://gist.github.com/jaljo/ae7cb56eb3aa526e5ea66eed1c0f260c)
 
-This action is also dispatched when moving the cursor, so it make it easy to
+This action is also dispatched when moving the cursor, so it makes it easy to
 identify when we're on an empty paragraph and display the paragraph toolbox.
 Once more, all this logic is done in an epic :
 
@@ -622,20 +623,20 @@ export const showParagraphToolboxEpic = (action$, state$, { window }) =>
 ```
 [See gist here](https://gist.github.com/jaljo/2a43d542d80077b6dda253f7f5a107b1)
 
-This epic show the paragraph toolbox for, and only for the editor having the
+This epic show the paragraph toolbox for and only for the editor having the
 right `editorName`. The absolute position at which the paragraph toolbox will be
 shown is computed from there. We also store in the redux state the node index
 corresponding to the paragraph in which the cursor is. It will later be used
 to insert medias chosen with the paragraph toolbox.
 
 Unlike the text toolbox buttons, paragraph toolbox buttons each behave
-differently. Explaining them all will be too long, we'll rather focus on an
-speaking example. For other cases, feel free to check the source code !
+differently. Explaining them all will be too long, we'll rather focus on a
+telling example. For other cases, feel free to check the source code !
 
 ## Insertion of a tweet : a case study
 
 In this chapter, we will try to give a better insight of how the whole thing is
-working, by breaking down a simple use case and the components involved in it's
+working, by breaking down a simple use case and the components involved in its
 workflow. The main idea of this use case was to give users the simplest way to
 insert a tweet, only by pasting a link, without any HTML edition required.
 
@@ -649,8 +650,8 @@ end user in the front end application.
 The following chart will give you an overview of the actions flow :
 ![Insert tweet action flow chart](/images/text-editor/RTE.png)
 
-History begins as soon as an user submits the little tweet insertion form.
-Thanks to `redux` action creators, the url of the tweet he wants to insert is
+History begins as soon as a user submits the little tweet insertion form.
+Thanks to `redux` action creators, the url of the tweet they wants to insert is
 boxed along with the `INSERT_TWEET` action, which is observed by a first epic.
 
 The HTML markup of a tweet can be obtained by using the twitter API,
@@ -668,8 +669,8 @@ errors can be properly catched and displayed to the end user when something goes
 wrong.
 Cool thing is, keeping epics as atomic as possible (observe an action, do one
 thing, then dispatch another action) allow them to be easily tested. That is,
-your fellow developpers dont want to break your legs when the prod crashes
-(which will happend, but that's another story).
+your fellow developers don't want to break your legs when the prod crashes
+(which will happen, but that's another story).
 
 ### Inserting the embed tweet into the DOM
 
@@ -735,7 +736,7 @@ export const getEditor = editorName => document.querySelector(
 ```
 [See gist here](https://gist.github.com/jaljo/4c8f83acc48766b930d7d584fe9ed22b)
 
-As you can see, the `insertTweetNode` function returns a Promise, it provide
+As you can see, the `insertTweetNode` function returns a Promise, it provides
 us a nice way to handle failures at that step of the process. What does that
 function do ?
 
@@ -744,7 +745,7 @@ the HTML markup provided by the twitter API in the previous observable, it
 creates an HTML representation of the tweet **formatted as we need it to be.**
 - Then, using an `insertNewNodeAtIndex` utility, we replace the empty paragraph
 from where the tweet insertion form was shown by the new node created at the
-previous step (that paragraph index has early been saved into the paragraph
+previous step (that paragraph index has already been saved into the paragraph
 toolbox state when the `SHOW_PARAGRAPH_TOOLBOX` action has been reduced).
 - The promise is finally resolved with data such as the editor name, because we
 need to carry these information out during the whole process.
@@ -759,15 +760,16 @@ related.
 
 The `TWEET_INSERTED` action is observed by four epics (and here we gain full
 benefit of working with observable streams) :
-- One that takes care of systematically insert and focus a new paragraph after a
-media has been inserted (for pure UX concerns),
+- One that systematically takes care of inserting and focusing a new paragraph
+after a media has been inserted (for pure UX concerns),
 - One that will hide the paragraph toolbox (we no longer need it to be displayed
 as a consequence of the previous action: a new paragraph has been inserted),
 - One that will close the tweet insertion form so that the user is not annoyed
 when the paragraph toolbox is lately shown,
-- The last wich only maps the payload of the `TWEET_INSERTED` action payload to
+- The last which only maps the payload of the `TWEET_INSERTED` action payload to
 a new `RENDER_TWEET` one. Although it can sound a bit overkill to have an epic
-that does apparently "nothing", it help us keep our action stream crystal clear.
+that does apparently "nothing", it helps us keep our action stream crystal
+clear.
 
 Guess what ? That action is observed too !
 
@@ -793,9 +795,9 @@ export const renderTweetEpic = (action$, state$, { window }) =>
 ```
 [See gist here](https://gist.github.com/jaljo/006cab23716b9076dfcd5b2032d03081)
 
-That epic check for the twitter SDK presence in the window object using the
+That epic checks for the twitter SDK presence in the window object using the
 `filter` operator. Noticed how we pass the window object as a dependency of
-the epic ? This life saving feature is given by rxjs 6 and help us to keep our
+the epic ? This life saving feature is given by rxjs 6 and helps us to keep our
 epics as pure as possible. By letting us the ability to mock the window object
 (or our fetchApi, which also comes as a dependency), testing is way simpler.
 Here is a brief explanation of what the epic actually do :
@@ -808,7 +810,7 @@ promise of the `insertTweetNode` function).
 to resolve our observable stream.
 
 That final action is reduced so the rendered tweet markup is appened to a
-collection of others rendered tweets.
+collection of other rendered tweets.
 We do that because at some time, we will need to actually **save** the content
 of our text editor in the database. Due to the SDK call, the tweet
 widget rendering is totally messed up with some iframe and shallow content.
@@ -824,16 +826,16 @@ write articles. Doing so in an input element, everything works just great. You
 get rid of non textual elements, and end up with a raw string ready to be
 submitted. When pasting in a `contentEditable` element, things are way
 different.
-The browser will try to render the pasted text as close as possible from of the
+The browser will try to render the pasted text as close as possible from the
 original copied text, resulting in massive and ugly inline style everywhere.
 This is not what we want, because we tried to have a clean HTML semantic by
 controlling **how elements are rendered** (remember we wrote a parser for that).
 
 We had to find a way to sanitize (once more !) the user clipboard, to ensure
 only raw text is pasted from external sources. Problem is, clipboard interaction
-is one of the most obvious security breach in web application, because it
+is one of the most obvious security breach in web applications, because it
 implies a direct communication between javascript and the external world with
-almost no way to control what's comming from it. In the past, several workaround
+almost no way to control what's coming from it. In the past, several workarounds
 involving extreme methods such as `iframe` and even `flash` (brrrr) were used.
 Lately, the well known `document.execCommand('paste')` came to the rescue, but
 was still very limitated due to security concerns. See
@@ -842,15 +844,15 @@ for details.
 
 A more recent approach was to use the
 [new clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API),
-which provide an elegant and secured way to access the user clipboard (as soon
-as he gaves the app the permission to do so) and let us work with Promises in
-return. This feature is still at experimental state and the API is likely to
-evolve in the future. We use it anyway, because it's what fits our user need the
-best, and we were lucky enough for the compatibility tables to match his
+which provides an elegant and secured way to access the user clipboard (as soon
+as he gaves the app the permission to do so) and allow us to work with Promises
+in return. This feature is still at its experimental state and the API is likely
+to evolve in the future. We use it anyway, because it's what fits our user need
+the best, and we were lucky enough for the compatibility tables to match its
 environment.
 
 If you recall, an `onPaste` handler was binded to the article editor. It is
-triggered either when user pastes text from the shortcut key combination CTRL+V
+triggered either when users pastes text from the shortcut key combination CTRL+V
 or via contextual menu. That handler prevents the browser default behavior and
 like every other handlers of this component, dispatches a `PASTE` action which
 is observed by an epic:
@@ -870,7 +872,7 @@ const checkClipboardAccessEpic = action$ => action$.pipe(
 ```
 [See gist here](https://gist.github.com/jaljo/4e22647075c2199e52a4eb93dad0f672)
 
-This first epic check for the clipboard access and dispatches an error message
+This first epic checks for the clipboard access and dispatches an error message
 if that permission is not granted. When everything is fine, a `PASTE_GRANTED`
 action carrying the pasted text read from the clipboard is dispatched. Another
 epic observes that action and will insert the pasted text at the right place.
@@ -926,7 +928,7 @@ compatible with the contents previously edited with that legacy app.
 This brings us to the `sanitization` step, where we replace any rendered
 representation of complex inserted media by their embed markup. To do so,
 we have to keep the embed markup of the media in the application state.
-We also have to identify to which embed markup is correponding the rendered
+We also have to identify to which embed markup is corresponding the rendered
 representation (e.g. for tweets, we're using the tweet id to make this
 matching).
 
@@ -982,15 +984,15 @@ The saved string can then be used by the public website to display the article.
 
 Phew ! That was a long ride ! Congratulations for staying with us so far ;)
 At that time of writing, the text editor is still being improved to follow
-feedbacks given by end users. We described it as it is when we wrote this
+feedbacks given by end users. We described it as it was when we wrote this
 article.
 A possible improvement would be the ability to move some selected text by
-dragging and dropping it at the desired place. This could lead to an other blog
+dragging and dropping it at the desired place. This could lead to another blog
 post.
 
 It was a good excercise to develop. In the end, the concepts are most of all
 very simple. We learned a lot on the native browser functionalities
-and we are amazed by the possibilities of these sofwares !
+and we are amazed by the possibilities of these softwares !
 We also hope this article helped you to discover new concepts :)
 
 You can clone the text editor and see the code for all other features on
