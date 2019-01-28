@@ -1,4 +1,28 @@
-# Rich Text Editor
+# How we built a medium like rich text editor
+
+# Table of contents
+1. [Context](#context)
+2. [The specs](#the-specs)
+3. [Text edition POC](#text-edition-poc)
+    1. [First attempt : AST](#first-attempt--ast)
+    2. [Second attempt : manipulating the DOM](#second-attempt--manipulating-the-dom)
+    3. [The holy grail : document.execCommand](#the-holy-grail--documentexeccommand)
+4. [Design](#design)
+  1. [Paragraph toolbox](#paragraph-toolbox)
+5. [Implementation](#implementation)
+  1. [View](#view)
+  2. [Container](#container)
+  3. [Epics](#epics)
+6. [Text toolbox workflow](#text-toolbox-workflow)
+7. [Paragraph toolbox workflow](#paragraph-toolbox-workflow)
+8. [Insertion of a tweet : a case study](#insertion-of-a-tweet--a-case-study)
+  1. [Getting the HTML markup from twitter](#getting-the-html-markup-from-twitter)
+  2. [Inserting the embed tweet into the DOM](#inserting-the-embed-tweet-into-the-DOM)
+  3. [Rendering the inserted tweet and going back to the original state](#rendering-the-inserted-tweet-and-going-back-to-the-original-state)
+9. [Clipboard access](#clipboard-access)
+10. [Save the edited content](#save-the-edited-content)
+11. [Conclusion](#conclusion)
+12. [TL;DR](#tl-dr)
 
 ## Context
 
@@ -967,6 +991,18 @@ this repository : [https://github.com/jaljo/rich-text-editor](https://github.com
 
 Thanks for reading,
 that's all folks !
+
+## TL;DR
+
+We built a medium like text editor to write articles. It allows to embed images
+and videos from our collection, tweets and youtube videos. It also have the
+word processing features we find on common text editors.
+We used the [`document.execCommand`](https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand)
+function to apply text mutations. Our app is using react, redux and
+redux-observable. We also built an HTML parser to have full control over the
+text to render.
+
+See the full article for details and for a link to the source code ;)
 
 [Joris Langlois](https://github.com/jaljo) and [Nicolas Mure](https://github.com/nicolasmure)
 from [knplabs.com](http://knplabs.com/en).
