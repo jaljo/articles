@@ -54,8 +54,8 @@ make it behave exactly the way we want.
 Keep in mind that our text editor development took place whereas the frontend
 website used to publish informations was close to be put online.
 
-Technically speaking, articles are fetched from an HTTP REST API (our back
-office). Some of them were coming from a legacy application, and may contain
+Technically speaking, articles are fetched from an HTTP REST API (our backend).
+Some of them were coming from a legacy application, and may contain
 some broken HTML semantic. To address this problem, we decided to develop a
 parser for the received HTML markup to be cleaned. This parser creates React
 components for, and only for HTML tags that we allow. Doing so, only tags we're
