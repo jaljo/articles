@@ -864,11 +864,11 @@ const pasteCopiedTextEpic = (action$, state$, { window }) =>
 Two cases are to be distinguised:
 - When pasting in an empty paragraph, things are quite simple. We only replace
 the paragraph `innerHTML` by the user text.
-- When pasting in an already existing paragraph, it's content has to be updated
-so the new text is inserted **between** existing one (if the selection is empty)
-or **replace the current selection**. String manipulation is to be done here
-that are delegated to an external `pasteTextInExistingText` function to kee the
-epic as clear as possible.
+- When pasting in an already existing paragraph, its content has to be updated
+so the new text is inserted **between** the existing one (if the selection is
+empty) or **replace the current selection**. This implies to manipulate strings
+and this is delegated to an external `pasteTextInExistingText` function, to keep
+the epic as clear as possible.
 
 Once the text has been pasted, a `TEXT_PASTED` action is dispatched so the
 observable stream is resolved :).
@@ -877,27 +877,27 @@ observable stream is resolved :).
 
 To save the edited content, we simply grab the HTML string inside the DOM node
 of the TextEditor component having the `contentEditable={true}` attribute.
-This HTML string is out editeed text, so we cant send it to our backend to save
-the edited text.
+This HTML string is our edited text, so we can send it to our backend to save
+the edited text. However, there is an extra step to take before.
 
-However, there is an extra step before sending anything to the backend. As
-we can insert some third party medias (such as tweets and youtube videos),
+As we can insert some third party medias (such as tweets and youtube videos),
 the rendered HTML markup of these medias are present in the HTML string
 to send. We definitely do not want to save the rendered representation
 of these medias, but instead their embed markup. For instance, to render
 tweets, we're using the embed HTML markup and then we make a call to the
 twitter SDK which would render a nice and complete tweet from the embed code.
-The rendered representationtions are always more verbose than the markup code,
-so that's why we prefer to store only the embed markup in our DB.
-Aditionaly, the legacy text edition application was already working with
-embed code to insert tweets, so we wanted to make this TextEditor
-compatible with the contents edited by the legacy app.
+The rendered representations are always more verbose than the markup code,
+that's why we prefer to store only the embed markup in our DB.
+Additionaly, the legacy text edition application was already working with
+embed code to display tweets, so we wanted to make this TextEditor
+compatible with the contents previously edited with that legacy app.
 
 This brings us to the `sanitization` step, where we replace any rendered
 representation of complex inserted media by their embed markup. To do so,
 we have to keep the embed markup of the media in the application state.
-We also have to identify to which rendered representation corresponds an embed
-markup (eg for tweets, we're using the tweet id to make this matching).
+We also have to identify to which embed markup is correponding the rendered
+representation (e.g. for tweets, we're using the tweet id to make this
+matching).
 
 So, when we want to send an HTML string to the backend, we first use the
 `sanitizeContentBody` function :
@@ -941,31 +941,31 @@ export const sanitizeContentBody = renderedTweets => pipe(
   wrapper => wrapper.innerHTML,
 )
 ```
-doing so, we're sure to persist in DB a valid string :)
+[See gist here](https://gist.github.com/jaljo/2045bde5a12cf35634c1b98225439789)
+
+Doing so, we're sure to persist a valid string in the database :)
 
 The saved string can then be used by the public website to display the article.
-
 
 ## Conclusion
 
 Phew ! That was a long ride ! Congratulations for staying with us so far ;)
-At the time of writing, the text editor is still being improved following
-the feedbacks of the end users. We described it as it is when we wrote this
+At that time of writing, the text editor is still being improved to follow
+feedbacks given by end users. We described it as it is when we wrote this
 article.
-As an improvement, there is the ability to move some selected text by dragging
-and dropping it at the desired place.
-Such improvements could lead to an other blog post.
+A possible improvement would be the ability to move some selected text by
+dragging and dropping it at the desired place. This could lead to an other blog
+post.
 
-It was a good excercice to develop it, and in the end, the concepts are most
-of all very simple. We learned a lot on the native browser functionalities
+It was a good excercise to develop. In the end, the concepts are most of all
+very simple. We learned a lot on the native browser functionalities
 and we are amazed by the possibilities of these sofwares !
-We also hope that this article helped you to discover new concepts :)
+We also hope this article helped you to discover new concepts :)
 
-You can clone the text editor and see the code for all the other features on
+You can clone the text editor and see the code for all other features on
 this repository : [https://github.com/jaljo/rich-text-editor](https://github.com/jaljo/rich-text-editor).
 
 Thanks for reading,
 that's all folks !
-
 
 Joris Langlois and Nicolas Mure from [knplabs.com](http://knplabs.com/en).
