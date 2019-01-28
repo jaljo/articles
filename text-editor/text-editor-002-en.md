@@ -1,5 +1,12 @@
 # How we built a medium like rich text editor
 
+This article synthethises the reflexion we went through during the conception
+and developpment of a web based rich text editor. We'll first focus on the
+situation which led us to that developpment, then we'll explain the different
+pathes we took to solve the problem and the one we finally chose.
+
+See TL;DR at the end of the article for those of you who are speed up ;)
+
 # Table of contents
 1. [Context](#context)
 2. [The specs](#the-specs)
