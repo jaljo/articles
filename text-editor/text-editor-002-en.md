@@ -22,7 +22,7 @@
 9. [Clipboard access](#clipboard-access)
 10. [Save the edited content](#save-the-edited-content)
 11. [Conclusion](#conclusion)
-12. [TL;DR](#tl-dr)
+12. [TL;DR](#tldr)
 
 ## Context
 
