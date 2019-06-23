@@ -76,6 +76,14 @@ these power ups are tied to specific locations opened by Trello, such as
 `card-back`, `card-buttons`,  and designated by  _capabilities_ in the their
 vocabulary.
 
+![](https://github.com/jaljo/articles/raw/710f8e2d3561a5fa65bc6422b99aad88695871f3/trello-history/images/pu-setup.png)
+
+**Capabilities are set in the Trello Power-ups administration board. Notice only
+administrators can create and expose power ups to their teams.**
+
+On bottom of that form, the _iframe connector url_ is where the intelligence of
+the power up actually lies.
+
 Missguided by daily habits (decouple, decouple, decouple !) we spent some time trying to figure out how we could
 possibly share ... with such limitation.
 
