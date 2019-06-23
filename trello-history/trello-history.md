@@ -61,12 +61,24 @@ We considered to get arround this problem by observing
 [DOM Mutations](https://developer.mozilla.org/fr/docs/Web/API/MutationObserver),
 and detect when a specific element entered the DOM, identified by it's class or
 id. Oh listen, what's that sound ? It looks like the WTF alarms are ranging
-afar ! Relying on HTML attributes to identify elements, which area very likely
+afar ! Relying on HTML attributes to identify elements, which are very likely
 to change over time, is a 100% chance for this project to end in the cemetery of
 repositories nobody dares to debug. We felt the time for a perspective change
 has come.
 
 ## An implementation change
+
+Trello offers another possibility to build features upon their application, with
+what they so called [Power ups](https://trello.com/power-ups). See them as
+external libraries which communicates with third services like Google, Facebook
+or the one you built with your little fingers. An important limitation though,
+these power ups are tied to specific locations opened by Trello, such as
+`card-back`, `card-buttons`,  and designated by  _capabilities_ in the their
+vocabulary.
+
+Missguided by daily habits (decouple, decouple, decouple !) we spent some time trying to figure out how we could
+possibly share ... with such limitation.
+
 Glitch...
 
 ## Going further
