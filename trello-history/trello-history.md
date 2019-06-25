@@ -46,7 +46,7 @@ No black magic behind the scene. We simply used the Trello native
 [client](https://developers.trello.com/docs/clientjs) to access their API with a
 good old XmlHttpRequest. To be called, the API requires explicit authentication:
 1. An auto generated API key,
-2. a token that is generated once the end user granted the API access on behalf
+2. a token that is generated once the end user granted the API access, on behalf
 of the user identified by this API key.
 
 Although it quite worked well, it also had several drawbacks. Because Trello is
@@ -73,21 +73,120 @@ what they so called [Power ups](https://trello.com/power-ups). See them as
 external libraries which communicates with third services like Google, Facebook
 or the one you built with your little fingers. An important limitation though,
 these power ups are tied to specific locations opened by Trello, such as
-`card-back`, `card-buttons`,  and designated by  _capabilities_ in the their
-vocabulary.
+`card-back`, `card-buttons`... These locations are designated by  _capabilities_
+in the their vocabulary.
 
 ![](https://github.com/jaljo/articles/raw/710f8e2d3561a5fa65bc6422b99aad88695871f3/trello-history/images/pu-setup.png)
 
 **Capabilities are set in the Trello Power-ups administration board. Notice only
 administrators can create and expose power ups to their teams.**
 
-On bottom of that form, the _iframe connector url_ is where the intelligence of
-the power up actually lies.
+On bottom of that form, the _iframe connector url_ targets where the application
+of the power up is hosted. As you can see, it must be served over HTTPS, which
+can be a bit tricky when working in development environment.
 
-Missguided by daily habits (decouple, decouple, decouple !) we spent some time trying to figure out how we could
-possibly share ... with such limitation.
+Here comes [Glitch](https://glitch.com/) to the rescue ! In a nutshell, Glitch
+provides a friendly ecosystem to collaborate on code, is easily linkable to
+github and offers instant hosting and automated deployment, which was handy for
+testing purpose. So all we have to do was to create a new project from the
+[power up skeleton project](https://glitch.com/edit/#!/trello-power-up-skeleton)
+gracefully proposed by Trello and remix it to create our own service.
 
-Glitch...
+Here is file structure of the project:
+```
+- views
+- public
+  |_ css
+  |_ image
+  |_ js
+  |_ translations
+- server.js
+```
+
+Nothing fancy here. The entry point of the application is served by an express
+instance. From here, we perform an authorization check, then render the history
+of the card if the user is authenticated, or a button to ask authorization if
+he's not:
+
+```js
+window.TrelloPowerUp.initialize({
+  'card-back-section': (t, options) => getTranslations(locale)
+    .then(response => response.json())
+    .then(trans => t.set('organization', 'shared', 'trans', trans))
+    .then(() => t.getRestApi()
+      .isAuthorized()
+      .then(isAuthorized => isAuthorized
+        ? renderHistory(t)
+        : askAuthorization(t)
+      ),
+    )
+}, {
+  appKey: 'no-you-wont-have-my-key',
+  appName: 'KNP Trello History',
+})
+```
+
+Some explanations on this piece of code: The `initialize` method takes an object
+as first parameter, which associates each capability with the callback it should
+execute (in this case, as soon as the back of a card is revealed).
+
+Keep in mind that power up capabilities are rendered in iframes. Yes. Please
+don't leave. The `renderHistory` and `askAuthorization` at the end of the
+promise flow are simple functions that both returns descriptive objects of how
+these iframes should be displayed. The important thing to understand is here:
+Each iframe targets a specific html page whitch runs its own js script. That is,
+how can we possibily **share data** between those scripts ?
+
+See that `t` argument ? It's the power up toolbox, exposing helpful methods to
+interact with the context of the Trello board. For example, the `t.set()` method
+is to be used to store scalar values in the context (translations, for example,
+are a perfect use case for it). Once stored, a `t.get()` method can be called
+from any other script to get our translations back. Piece of cake !
+
+This can be missleading, though. Tricked by our daily habits, we spent some time
+trying to over decouple things (i.e get the history data from the API in the
+main power up script above, store it in the context and only use other scripts
+for templating). The Trello buffer has a limit size of 4096 characters, so no
+need to say we didn't have any chance to successfullly store our stringified
+history there ! We wandered towards locale storage and string compression to
+bypass that limitation but finally figured out this is not how it's was supposed
+to be done.
+
+One script per iframe / page to be shown, simple as that. Let's have a quick
+look on the history script:
+
+```js
+t.render(() => t.get('organization', 'shared', 'translations')
+  .then(renderHistory(t))
+)
+
+// renderHistory :: Object -> String -> _
+const renderHistory = t => translations => t.getRestApi().getToken()
+  .then(R.pipeP(
+    getCardHistory(t.getRestApi().appKey, t.getContext().card),
+    response => response.json(),
+    R.tap(() => document.getElementById('history').innerHTML = ''),
+    R.ifElse(
+      R.compose(R.gt(2), R.length),
+      R.tap(() => noHistory(translations)),
+      // drop the first element as it is exactly the same as the description
+      R.compose(R.map(renderCard), R.drop(1)),
+    ),
+  ))
+  .catch(error => openAuthorizeIframe(t))
+```
+
+The `t.render()` method ensures the history section is refreshed each time the
+user modifies the description of a card (so the previous description will be
+added to the history).
+
+Here you can see how we get the translations from the context. We're also using
+[ramda](https://ramdajs.com/docs/) to get full benefit of promise composition
+and fetch the card history from Trello. The `renderCard`  function does nothing
+more than transforming a `card` object returned from the API in a renderable
+HTML string, and that's all !
+
+![](https://github.com/jaljo/articles/raw/710f8e2d3561a5fa65bc6422b99aad88695871f3/trello-history/images/history.png)
 
 ## Going further
 
