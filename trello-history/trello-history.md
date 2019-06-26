@@ -7,7 +7,7 @@ and clients.
 If you're working for a few years in software development, you're aware that
 even before architectural or implementation decisions, to define what does your
 client really **needs** stays on top of every project challenges. Let's imagine
-you and one of your collaborator (1) finally agreed on a feature definition (i.e
+you and one of your collaborator finally agreed on a feature definition (i.e
 it's scope, what the feature will **do**, not how it will be achieved from a
 more technical point of view).
 
@@ -36,7 +36,7 @@ We first approached the problem with the idea to use a
 [web extension](https://developer.mozilla.org/fr/docs/Mozilla/Add-ons/WebExtensions).
 They offer a convenient way to enhance the navigation experience and could be
 written using traditionnal browser side web technologies (HTML, CSS, JS). So we
-created a POC during our late winter hackathon in January, to demonstrate what
+created a POC during our last winter hackathon in January, to demonstrate what
 we intended to do was possible:
 - Access a card history,
 - render it on the back of that card _with markdown support_,
@@ -73,7 +73,7 @@ what they so called [Power ups](https://trello.com/power-ups). See them as
 external libraries which communicates with third services like Google, Facebook
 or the one you built with your little fingers. An important limitation though,
 these power ups are tied to specific locations opened by Trello, such as
-`card-back`, `card-buttons`... These locations are designated by  _capabilities_
+`card-back`, `card-buttons`... These locations are designated by _capabilities_
 in the their vocabulary.
 
 ![](https://github.com/jaljo/articles/raw/710f8e2d3561a5fa65bc6422b99aad88695871f3/trello-history/images/pu-setup.png)
@@ -88,7 +88,7 @@ can be a bit tricky when working in development environment.
 Here comes [Glitch](https://glitch.com/) to the rescue ! In a nutshell, Glitch
 provides a friendly ecosystem to collaborate on code, is easily linkable to
 github and offers instant hosting and automated deployment, which was handy for
-testing purpose. So all we have to do was to create a new project from the
+testing purpose. So all we had to do was to create a new project from the
 [power up skeleton project](https://glitch.com/edit/#!/trello-power-up-skeleton)
 gracefully proposed by Trello and remix it to create our own service.
 
@@ -134,7 +134,7 @@ Keep in mind that power up capabilities are rendered in iframes. Yes. Please
 don't leave. The `renderHistory` and `askAuthorization` at the end of the
 promise flow are simple functions that both returns descriptive objects of how
 these iframes should be displayed. The important thing to understand is here:
-Each iframe targets a specific html page whitch runs its own js script. That is,
+Each iframe targets a specific HTML page which runs its own JS script. That is,
 how can we possibily **share data** between those scripts ?
 
 See that `t` argument ? It's the power up toolbox, exposing helpful methods to
@@ -190,10 +190,23 @@ HTML string, and that's all !
 
 ## Going further
 
-A react impl ?
-Dockerize the project and push it to digital ocean
-Release this power up to trello marketplace
+Of course, this problem could have been sloved in many another way, by
+connecting Trello to Slack for example. That said, we liked the idea not to
+depend on another service and to have an "out of the box" solution that would
+work anywhere.
 
-!connection with slack
+In the end, it was quite a pleasant journey to discover the Trello API and how
+to build power ups with it. Although their documentation is pretty clear,
+informations are sometime scattered, tedious to find and lacks of complete
+examples. Power ups still are a new thing in the Trello landscape (< 100 power
+ups were released late 2018), and we learned it the hard way when we faced
+problems with the authentication process.
 
-(1) This magic word includes clients, teammates, and even agile coaches !
+This second version was done during our last summer Hackathon, and we are pretty
+proud of it. We didn't had the time to go for a better, more decoupled
+architecture, maybe it will worth to have a look on an FRP implementation with
+React / Redux.
+
+In the end, the production application will run in a docker container and be
+hosted on a DigitalOcean droplet. We're also considering to release this power
+up to the Trello marketplace.
