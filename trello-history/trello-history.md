@@ -207,6 +207,10 @@ proud of it. We didn't had the time to go for a better, more decoupled
 architecture, maybe it will worth to have a look on an FRP implementation with
 React / Redux.
 
-In the end, the production application will run in a docker container and be
-hosted on a DigitalOcean droplet. We're also considering to release this power
-up to the Trello marketplace.
+In the end, the production application run in a docker container and is hosted
+on a DigitalOcean droplet. Feel free to use that service in your own power up !
+
+[KNP History Power-up service](https://knp-trello-extension.glitch.me/)
+
+To finish, we're also considering to release this power up to the Trello
+marketplace.
