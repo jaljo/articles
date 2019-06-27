@@ -76,7 +76,7 @@ these power ups are tied to specific locations opened by Trello, such as
 `card-back`, `card-buttons`... These locations are designated by _capabilities_
 in the their vocabulary.
 
-![](https://github.com/jaljo/articles/raw/710f8e2d3561a5fa65bc6422b99aad88695871f3/trello-history/images/pu-setup.png)
+![](https://github.com/jaljo/articles/blob/master/trello-history/images/pu-setup.png)
 
 **Capabilities are set in the Trello Power-ups administration board. Notice only
 administrators can create and expose power ups to their teams.**
@@ -186,7 +186,7 @@ and fetch the card history from Trello. The `renderCard`  function does nothing
 more than transforming a `card` object returned from the API in a renderable
 HTML string, and that's all !
 
-![](https://github.com/jaljo/articles/raw/710f8e2d3561a5fa65bc6422b99aad88695871f3/trello-history/images/history.png)
+![](https://raw.githubusercontent.com/jaljo/articles/master/trello-history/images/history.png)
 
 ## Going further
 
