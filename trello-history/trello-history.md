@@ -85,25 +85,22 @@ On bottom of that form, the _iframe connector url_ targets where the application
 of the power up is hosted. As you can see, it must be served over HTTPS, which
 can be a bit tricky when working in development environment.
 
-Here comes [Glitch](https://glitch.com/) to the rescue ! In a nutshell, Glitch
-provides a friendly ecosystem to collaborate on code, is easily linkable to
-github and offers instant hosting and automated deployment, which was handy for
-testing purpose. So all we had to do was to create a new project from the
+Here comes [Serveo](https://serveo.net/) to the rescue ! In a nutshell, Serveo
+let you expose any local server to the internet, which was handy for testing
+purpose. So all we had to do was to create a new project from the
 [power up skeleton project](https://glitch.com/edit/#!/trello-power-up-skeleton)
 gracefully proposed by Trello and remix it to create our own service.
 
 Here is file structure of the project:
 ```
-- views
 - public
   |_ css
   |_ image
   |_ js
   |_ translations
-- server.js
 ```
 
-Nothing fancy here. The entry point of the application is served by an express
+Nothing fancy here. The entry point of the application is served by an nginx
 instance. From here, we perform an authorization check, then render the history
 of the card if the user is authenticated, or a button to ask authorization if
 he's not:
