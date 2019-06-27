@@ -190,13 +190,13 @@ HTML string, and that's all !
 
 ## Going further
 
-Of course, this problem could have been sloved in many another way, by
-connecting Trello to Slack for example. That said, we liked the idea not to
-depend on another service and to have an "out of the box" solution that would
+Of course, accessing a card history could have been achieved in many another
+way, by connecting Trello to Slack for example. That said, we liked the idea not
+to depend on another service and to have an "out of the box" solution that would
 work anywhere.
 
 In the end, it was quite a pleasant journey to discover the Trello API and how
-to build power ups with it. Although their documentation is pretty clear,
+to build power ups with it. Although their documentation is pretty huge,
 informations are sometime scattered, tedious to find and lacks of complete
 examples. Power ups still are a new thing in the Trello landscape (< 100 power
 ups were released late 2018), and we learned it the hard way when we faced
