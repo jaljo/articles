@@ -18,29 +18,16 @@ happen:
 3. you play poker with your teammates to give this card an estimation,
 4. you work the hell out of your sweat and blood to get the job done,
 5. you're proud of yourself and push the whole stuff in production,
-<<<<<<< Updated upstream
 6. because you're a good developper, the production is not down.
 7. the feature's definition has changed in the card, and nobody realized until
 now (see step 4),
-=======
-6. because you're a good developer, the production is not down and you can
-notify your client,
-7. he says it's not what he needed in the end because he surreptitiously changes
-the feature's definition in the card, and nobody realized (see step 4),
->>>>>>> Stashed changes
 8. you table flip the entire open space and think of extreme measures, like
 expatriating yourself in the Loir-Et-Cher.
 
 This little story brought to light the emergency for us to keep the history of
-<<<<<<< Updated upstream
 every changes made against a project's card. That way, we could have the
 opportunity to point an accusing "AHA!" finger on the unfortunate one who
 surreptitiously changed that card description.
-=======
-every change made against a project's card. That way, we could have the chance
-to point an accusing "AHA!" finger on the client, in case the previous scenario
-occures once more.
->>>>>>> Stashed changes
 
 ## From the idea to the POC
 
@@ -61,7 +48,6 @@ good old XmlHttpRequest. To be called, the API requires explicit authentication:
 2. a token that is generated once the end user granted the API access, on behalf
 of the API key identified user.
 
-<<<<<<< Updated upstream
 Speaking of which, know that once acquired, Trello will save the authentication
 token **server side**. If you're facing authentication problems or weird
 behaviors, cleaning cookies or the cache browser side is not of any help.
@@ -77,15 +63,6 @@ on domain oriented objects (card, boards, members...). That is, we still had no
 way to directly interact with the Trello front application, nor to listen for
 events such as card loading success to know **when** we should get and display
 it's history.
-=======
-Although it quite worked well, it also had several drawbacks. Because Trello is
-a SPA and we decided to use a web extension, we had trouble dealing with
-asynchronicity. Indeed, the Trello API only let us perform actions on domain
-oriented objects (card, boards, members...). That is, we still had no way to
-directly interact with the Trello front application, nor to listen for events
-such as card loading success to know **when** we should get and display it's
-history.
->>>>>>> Stashed changes
 
 We considered to get around this problem by observing
 [DOM Mutations](https://developer.mozilla.org/fr/docs/Web/API/MutationObserver),
@@ -115,16 +92,9 @@ On bottom of that form, the _iframe connector url_ targets where the application
 of the power up is hosted. As you can see, it must be served over HTTPS, which
 can be a bit tricky when working in development environment.
 
-<<<<<<< Updated upstream
 Here comes [Serveo](https://serveo.net/) to the rescue ! In a nutshell, Serveo
 let you expose any local server to the internet, which was handy for testing
 purpose. So all we had to do was to create a new project from the
-=======
-Here comes [Glitch](https://glitch.com/) to the rescue ! In a nutshell, Glitch
-provides a friendly ecosystem to collaborate on code, is easily linkable to
-github and offers instant hosting and automated deployment, which was handy for
-testing. So all we had to do was to create a new project from the
->>>>>>> Stashed changes
 [power up skeleton project](https://glitch.com/edit/#!/trello-power-up-skeleton)
 gracefully proposed by Trello and remix it to create our own service. This
 skeleton is hosted on (Glitch)[https://glitch.com/] which provides a friendly
@@ -226,7 +196,6 @@ HTML string, and that's all !
 
 ## Going further
 
-<<<<<<< Updated upstream
 Of course, accessing a card history could have been achieved in many another
 way, by connecting Trello to Slack for example. That said, we liked the idea not
 to depend on another service and to have an "out of the box" solution that would
@@ -236,22 +205,10 @@ In the end, it was quite a pleasant journey to discover the Trello API and how
 to build power ups with it. Although their documentation is pretty huge,
 informations are sometime scattered, tedious to find and lacks of complete
 examples. Power ups still are a new thing in the Trello landscape (< 100 power
-=======
-Of course, this problem could have been sloved in many other ways, by
-connecting Trello to Slack for example. That said, we liked the idea not to
-depend on another service and to have an "out of the box" solution that would
-work anywhere.
-
-In the end, it was quite a pleasant journey to discover the Trello API and how
-to build power ups with it. Although their documentation is pretty clear,
-informations are sometimes scattered, tedious to find and lacks of complete
-examples. Power ups are still a new thing in the Trello landscape (< 100 power
->>>>>>> Stashed changes
 ups were released late 2018), and we learned it the hard way when we faced
 problems with the authentication process.
 
 This second version was done during our last summer Hackathon, and we are pretty
-<<<<<<< Updated upstream
 proud of it. We didn't had the time to go for a better, more decoupled
 architecture, maybe it will worth to have a look on an FRP implementation with
 React and Redux. To finish, we're also considering to release this power up to
@@ -260,11 +217,6 @@ the Trello marketplace.
 If you want to give it a try, you can either:
 - host the [docker image of the project](https://cloud.docker.com/u/knplabs/repository/docker/knplabs/trello-history-powerup)
 - directly use [our hosted service](https://trello-history-powerup.s3.eu-west-3.amazonaws.com/index.html)
-=======
-proud of it. We didn't have the time to go for a better, more decoupled
-architecture, maybe it will be worth to have a look on an FRP implementation with
-React / Redux.
->>>>>>> Stashed changes
 
 Feel free to browse the complete codebase on
 [Github](https://github.com/KnpLabs/trello-history-powerup) !
