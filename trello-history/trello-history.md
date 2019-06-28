@@ -6,35 +6,48 @@ and clients.
 
 If you're working for a few years in software development, you're aware that
 even before architectural or implementation decisions, to define what does your
-client really **needs** stays on top of every project challenges. Let's imagine
-you and one of your collaborator finally agreed on a feature definition (i.e
+client really **needs** stays on top of every project challenge. Let's imagine
+you and one of your collaborators finally agreed on a feature definition (i.e
 it's scope, what the feature will **do**, not how it will be achieved from a
 more technical point of view).
 
-In an agile project's workflow, there is chances some of these steps will
-happend:
+In an agile project's workflow, there is a chance some of these steps will
+happen:
 1. You create a new ticket in your favorite collaborative tool,
 2. you write the feature definition down in this card,
 3. you play poker with your teammates to give this card an estimation,
 4. you work the hell out of your sweat and blood to get the job done,
 5. you're proud of yourself and push the whole stuff in production,
+<<<<<<< Updated upstream
 6. because you're a good developper, the production is not down.
 7. the feature's definition has changed in the card, and nobody realized until
 now (see step 4),
+=======
+6. because you're a good developer, the production is not down and you can
+notify your client,
+7. he says it's not what he needed in the end because he surreptitiously changes
+the feature's definition in the card, and nobody realized (see step 4),
+>>>>>>> Stashed changes
 8. you table flip the entire open space and think of extreme measures, like
 expatriating yourself in the Loir-Et-Cher.
 
 This little story brought to light the emergency for us to keep the history of
+<<<<<<< Updated upstream
 every changes made against a project's card. That way, we could have the
 opportunity to point an accusing "AHA!" finger on the unfortunate one who
 surreptitiously changed that card description.
+=======
+every change made against a project's card. That way, we could have the chance
+to point an accusing "AHA!" finger on the client, in case the previous scenario
+occures once more.
+>>>>>>> Stashed changes
 
 ## From the idea to the POC
 
 We approached the problem with the idea to use a
 [web extension](https://developer.mozilla.org/fr/docs/Mozilla/Add-ons/WebExtensions).
 They offer a convenient way to enhance the navigation experience and could be
-written using traditionnal browser side web technologies (HTML, CSS, JS). So we
+written using traditional browser side web technologies (HTML, CSS, JS). So we
 created a POC during our last winter hackathon in January, to demonstrate what
 we intended to do was possible:
 - Access a card history,
@@ -48,6 +61,7 @@ good old XmlHttpRequest. To be called, the API requires explicit authentication:
 2. a token that is generated once the end user granted the API access, on behalf
 of the API key identified user.
 
+<<<<<<< Updated upstream
 Speaking of which, know that once acquired, Trello will save the authentication
 token **server side**. If you're facing authentication problems or weird
 behaviors, cleaning cookies or the cache browser side is not of any help.
@@ -63,10 +77,19 @@ on domain oriented objects (card, boards, members...). That is, we still had no
 way to directly interact with the Trello front application, nor to listen for
 events such as card loading success to know **when** we should get and display
 it's history.
+=======
+Although it quite worked well, it also had several drawbacks. Because Trello is
+a SPA and we decided to use a web extension, we had trouble dealing with
+asynchronicity. Indeed, the Trello API only let us perform actions on domain
+oriented objects (card, boards, members...). That is, we still had no way to
+directly interact with the Trello front application, nor to listen for events
+such as card loading success to know **when** we should get and display it's
+history.
+>>>>>>> Stashed changes
 
-We considered to get arround this problem by observing
+We considered to get around this problem by observing
 [DOM Mutations](https://developer.mozilla.org/fr/docs/Web/API/MutationObserver),
-and detect when a specific element entered the DOM, identified by it's class or
+and detect when a specific element entered the DOM, identified by its class or
 id. Oh listen, what's that sound ? It looks like the WTF alarms are ranging
 afar ! Relying on HTML attributes to identify elements, which are very likely
 to change over time, is a 100% chance for this project to end in the cemetery of
@@ -81,7 +104,7 @@ external libraries which communicates with third services like Google, Facebook
 or the one you built with your little fingers. An important limitation though,
 these power ups are tied to specific locations opened by Trello, such as
 `card-back`, `card-buttons`... These locations are designated by _capabilities_
-in the their vocabulary.
+in their vocabulary.
 
 ![](https://github.com/jaljo/articles/blob/master/trello-history/images/pu-setup.png)
 
@@ -92,16 +115,23 @@ On bottom of that form, the _iframe connector url_ targets where the application
 of the power up is hosted. As you can see, it must be served over HTTPS, which
 can be a bit tricky when working in development environment.
 
+<<<<<<< Updated upstream
 Here comes [Serveo](https://serveo.net/) to the rescue ! In a nutshell, Serveo
 let you expose any local server to the internet, which was handy for testing
 purpose. So all we had to do was to create a new project from the
+=======
+Here comes [Glitch](https://glitch.com/) to the rescue ! In a nutshell, Glitch
+provides a friendly ecosystem to collaborate on code, is easily linkable to
+github and offers instant hosting and automated deployment, which was handy for
+testing. So all we had to do was to create a new project from the
+>>>>>>> Stashed changes
 [power up skeleton project](https://glitch.com/edit/#!/trello-power-up-skeleton)
 gracefully proposed by Trello and remix it to create our own service. This
 skeleton is hosted on (Glitch)[https://glitch.com/] which provides a friendly
 ecosystem to collaborate on code and offers instant hosting with automated
 deployment.
 
-Here is file structure of the project:
+Here is the file structure of the project:
 ```
 - public
   |_ css
@@ -134,14 +164,14 @@ window.TrelloPowerUp.initialize({
 
 Some explanations on this piece of code: The `initialize` method takes an object
 as first parameter, which associates each capability with the callback it should
-execute (in this case, as soon as the back of a card is revealed).
+execute (in this case, as soon as the back of one card is revealed).
 
 Keep in mind that power up capabilities are rendered in iframes. Yes. Please
 don't leave. The `renderHistory` and `askAuthorization` at the end of the
 promise flow are simple functions that both returns descriptive objects of how
 these iframes should be displayed. The important thing to understand is here:
 Each iframe targets a specific HTML page which runs its own JS script. That is,
-how can we possibily **share data** between those scripts ?
+how can we possibly **share data** between those scripts ?
 
 See that `t` argument ? It's the power up toolbox, exposing helpful methods to
 interact with the context of the Trello board. For example, the `t.set()` method
@@ -149,13 +179,13 @@ is to be used to store scalar values in the context (translations, for example,
 are a perfect use case for it). Once stored, a `t.get()` method can be called
 from any other script to get our translations back. Piece of cake !
 
-This can be missleading, though. Tricked by our daily habits, we spent some time
+This can be misleading, though. Tricked by our daily habits, we spent some time
 trying to over decouple things (i.e get the history data from the API in the
 main power up script above, store it in the context and only use other scripts
 for templating). The Trello buffer has a limit size of 4096 characters, so no
-need to say we didn't have any chance to successfullly store our stringified
+need to say we didn't have any chance to successfully store our stringified
 history there ! We wandered towards locale storage and string compression to
-bypass that limitation but finally figured out this is not how it's was supposed
+bypass that limitation but finally figured out this is not how it was supposed
 to be done.
 
 One script per iframe / page to be shown, simple as that. Let's have a quick
@@ -196,6 +226,7 @@ HTML string, and that's all !
 
 ## Going further
 
+<<<<<<< Updated upstream
 Of course, accessing a card history could have been achieved in many another
 way, by connecting Trello to Slack for example. That said, we liked the idea not
 to depend on another service and to have an "out of the box" solution that would
@@ -205,10 +236,22 @@ In the end, it was quite a pleasant journey to discover the Trello API and how
 to build power ups with it. Although their documentation is pretty huge,
 informations are sometime scattered, tedious to find and lacks of complete
 examples. Power ups still are a new thing in the Trello landscape (< 100 power
+=======
+Of course, this problem could have been sloved in many other ways, by
+connecting Trello to Slack for example. That said, we liked the idea not to
+depend on another service and to have an "out of the box" solution that would
+work anywhere.
+
+In the end, it was quite a pleasant journey to discover the Trello API and how
+to build power ups with it. Although their documentation is pretty clear,
+informations are sometimes scattered, tedious to find and lacks of complete
+examples. Power ups are still a new thing in the Trello landscape (< 100 power
+>>>>>>> Stashed changes
 ups were released late 2018), and we learned it the hard way when we faced
 problems with the authentication process.
 
 This second version was done during our last summer Hackathon, and we are pretty
+<<<<<<< Updated upstream
 proud of it. We didn't had the time to go for a better, more decoupled
 architecture, maybe it will worth to have a look on an FRP implementation with
 React and Redux. To finish, we're also considering to release this power up to
@@ -217,6 +260,11 @@ the Trello marketplace.
 If you want to give it a try, you can either:
 - host the [docker image of the project](https://cloud.docker.com/u/knplabs/repository/docker/knplabs/trello-history-powerup)
 - directly use [our hosted service](https://trello-history-powerup.s3.eu-west-3.amazonaws.com/index.html)
+=======
+proud of it. We didn't have the time to go for a better, more decoupled
+architecture, maybe it will be worth to have a look on an FRP implementation with
+React / Redux.
+>>>>>>> Stashed changes
 
 Feel free to browse the complete codebase on
 [Github](https://github.com/KnpLabs/trello-history-powerup) !
