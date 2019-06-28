@@ -31,7 +31,7 @@ surreptitiously changed that card description.
 
 ## From the idea to the POC
 
-We first approached the problem with the idea to use a
+We approached the problem with the idea to use a
 [web extension](https://developer.mozilla.org/fr/docs/Mozilla/Add-ons/WebExtensions).
 They offer a convenient way to enhance the navigation experience and could be
 written using traditionnal browser side web technologies (HTML, CSS, JS). So we
@@ -46,15 +46,23 @@ No black magic behind the scene. We simply used the Trello native
 good old XmlHttpRequest. To be called, the API requires explicit authentication:
 1. An auto generated API key,
 2. a token that is generated once the end user granted the API access, on behalf
-of the user identified by this API key.
+of the API key identified user.
 
-Although it quite worked well, it also had several drawbacks. Because Trello is
-an SPA and we decided to use a web extension, we had trouble dealing with
-asynchronicity. Indeed, the Trello API only let us perform actions on domain
-oriented objects (card, boards, members...). That is, we still had no way to
-directly interact with the Trello front application, nor to listen for events
-such as card loading success to know **when** we should get and display it's
-history.
+Speaking of which, know that once acquired, Trello will save the authentication
+token **server side**. If you're facing authentication problems or weird
+behaviors, cleaning cookies or the cache browser side is not of any help.
+We almost went nuts because of this, until we found there was a special button
+to get rid of that token:
+
+![](https://raw.githubusercontent.com/jaljo/articles/master/trello-history/images/reset-token.png)
+
+Although this first version quite worked well, it also had several drawbacks.
+Because Trello is an SPA and we decided to use a web extension, we had trouble
+dealing with asynchronicity. Indeed, the Trello API only let us perform actions
+on domain oriented objects (card, boards, members...). That is, we still had no
+way to directly interact with the Trello front application, nor to listen for
+events such as card loading success to know **when** we should get and display
+it's history.
 
 We considered to get arround this problem by observing
 [DOM Mutations](https://developer.mozilla.org/fr/docs/Web/API/MutationObserver),
