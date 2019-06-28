@@ -18,17 +18,16 @@ happend:
 3. you play poker with your teammates to give this card an estimation,
 4. you work the hell out of your sweat and blood to get the job done,
 5. you're proud of yourself and push the whole stuff in production,
-6. because you're a good developper, the production is not down and you can
-notify your client,
-7. he says it's not what he needed in the end because he surreptitiously changes
-the feature's definition in the card, and nobody realized (see step 4),
+6. because you're a good developper, the production is not down.
+7. the feature's definition has changed in the card, and nobody realized until
+now (see step 4),
 8. you table flip the entire open space and think of extreme measures, like
 expatriating yourself in the Loir-Et-Cher.
 
 This little story brought to light the emergency for us to keep the history of
-every changes made against a project's card. That way, we could have the chance
-to point an accusing "AHA!" finger on the client, in case the previous scenario
-occures once more.
+every changes made against a project's card. That way, we could have the
+opportunity to point an accusing "AHA!" finger on the unfortunate one who
+surreptitiously changed that card description.
 
 ## From the idea to the POC
 
@@ -89,7 +88,10 @@ Here comes [Serveo](https://serveo.net/) to the rescue ! In a nutshell, Serveo
 let you expose any local server to the internet, which was handy for testing
 purpose. So all we had to do was to create a new project from the
 [power up skeleton project](https://glitch.com/edit/#!/trello-power-up-skeleton)
-gracefully proposed by Trello and remix it to create our own service.
+gracefully proposed by Trello and remix it to create our own service. This
+skeleton is hosted on (Glitch)[https://glitch.com/] which provides a friendly
+ecosystem to collaborate on code and offers instant hosting with automated
+deployment.
 
 Here is file structure of the project:
 ```
@@ -100,10 +102,9 @@ Here is file structure of the project:
   |_ translations
 ```
 
-Nothing fancy here. The entry point of the application is served by an nginx
-instance. From here, we perform an authorization check, then render the history
-of the card if the user is authenticated, or a button to ask authorization if
-he's not:
+Nothing fancy here. First, we perform an authorization check, then we render the
+history of the card if the user is authenticated, or we display a button to ask
+authorization to access the API if he's not:
 
 ```js
 window.TrelloPowerUp.initialize({
@@ -202,12 +203,12 @@ problems with the authentication process.
 This second version was done during our last summer Hackathon, and we are pretty
 proud of it. We didn't had the time to go for a better, more decoupled
 architecture, maybe it will worth to have a look on an FRP implementation with
-React / Redux.
+React and Redux. To finish, we're also considering to release this power up to
+the Trello marketplace.
 
-In the end, the production application run in a docker container and is hosted
-on a DigitalOcean droplet. Feel free to use that service in your own power up !
+If you want to give it a try, you can either:
+- host the [docker image of the project](https://cloud.docker.com/u/knplabs/repository/docker/knplabs/trello-history-powerup)
+- directly use [our hosted service](https://trello-history-powerup.s3.eu-west-3.amazonaws.com/index.html)
 
-[KNP History Power-up service](https://knp-trello-extension.glitch.me/)
-
-To finish, we're also considering to release this power up to the Trello
-marketplace.
+Feel free to browse the complete codebase on
+[Github](https://github.com/KnpLabs/trello-history-powerup) !
