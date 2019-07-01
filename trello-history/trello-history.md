@@ -12,12 +12,12 @@ imagine you and one of your collaborators finally agreed on a feature definition
 a more technical point of view).
 
 In an agile project's workflow, chances are some of these steps will happen:
-1. You create a new ticket in your favorite collaborative tool,
+1. you create a new ticket in your favorite collaborative tool,
 2. you write the feature definition down in this card,
 3. you play planning poker with your teammates to give this card an estimation,
 4. you work your ass off to get the job done,
 5. you're proud of yourself and push the whole stuff in production,
-6. because you're a good developper, the production is not down.
+6. because you're a good developper, the production is not down,
 7. the feature's definition has changed in the card, and nobody realized it
 until now (see step 4),
 8. you table flip the entire open space and consider extreme measures, like
@@ -58,8 +58,8 @@ display its history.
 
 We considered getting around this problem by observing
 [DOM Mutations](https://developer.mozilla.org/fr/docs/Web/API/MutationObserver),
-and detect when a specific element entered the DOM, identified by its class or
-id. Oh listen, what's that noise ? It sounds like the WTF alarms are ranging
+and detecting when a specific element entered the DOM, identified by its class
+or id. Oh listen, what's that noise ? It sounds like the WTF alarms are ranging
 afar ! Relying on HTML attributes to identify elements, which are very likely
 to change over time, is a 100% chance for this project to end in the cemetery of
 repositories nobody dares to debug. We felt the time for a perspective change
@@ -89,7 +89,7 @@ lets you expose any local server to the Internet, which was handy for our
 testing purposes. So all we had to do was to create a new project from the
 [power up skeleton project](https://glitch.com/edit/#!/trello-power-up-skeleton)
 graciously offered by Trello and remix it to create our own service. This
-skeleton is hosted on (Glitch)[https://glitch.com/] which provides a friendly
+skeleton is hosted on (Glitch)[https://glitch.com/], which provides a friendly
 ecosystem to collaborate on code and offers instant hosting with automated
 deployment.
 
@@ -202,20 +202,20 @@ ups were released as of late 2018), and we learned it the hard way when we faced
 problems with the authentication process.
 
 Speaking of which, please remember that once the auth token is obtained, Trello
-will save it **server-side**. If you're facing authentication problems or weird
-behavior, cleaning cookies or the cache browser side won't be of any help.
+will save it **server-side**. So if you're facing authentication problems or
+weird behavior, cleaning cookies or the cache browser side won't be of any help.
 We almost went nuts because of this, until we found out there was a special
 button made to get rid of that token:
 
 ![](https://raw.githubusercontent.com/jaljo/articles/master/trello-history/images/reset-token.png)
 
-The second version was done during our last summer hackathon, and we are pretty
-proud of it. We didn't had the time to go for a better, more decoupled
-architecture, but it may be worth giving a try on an FRP implementation
+The final version of the Power-up was done during our last summer hackathon,
+and we are pretty proud of it. We didn't had the time to go for a better, more
+decoupled architecture but it may be worth giving a try on an FRP implementation
 with React and Redux. We're also considering to releasing this power up to the
 Trello marketplace.
 
-If you want to give it a try, you can either:
+If you want to use it for your own Trello boards, you can either:
 - host the [Docker image of the project](https://cloud.docker.com/u/knplabs/repository/docker/knplabs/trello-history-powerup)
 - directly use [our hosted service](https://trello-history-powerup.s3.eu-west-3.amazonaws.com/index.html)
 
