@@ -25,6 +25,7 @@ autre question a laquelle nous sommes confrontés régulièrement - et qui n'est
 moindre - concerne le fait d'avoir, en plus, à constamment réapprendre notre champ
 de compétence.
 
+??????
 Ces questions sont très personnelles, et fortement dépendantes de l'histoire de
 chacun, c'est pourquoi les réflexions menées ici ne sont qu'une tentative de
 mettre a plat
@@ -52,14 +53,33 @@ surprise lorsque j'ai rejoint KNP, c'est la sérénité avec laquelle certains
 arrivaient à accueillir leur propres erreurs et les moyens qui avaient été mis
 en place pour capitaliser sur ce qu'ils avaient appris. J'ai remarqué chez eux
 une corrélation forte entre cette assurance et leur capacité à documenter un
-problème de façon exhaustive, que ce soir en amont avec la rédaction d'[ADRs](https://github.com/joelparkerhenderson/architecture_decision_record) ou bien en aval, avec la rédaction de comptes
-rendus d'incident, par exemple.
+problème de façon prolifique, que ce soir en amont avec la rédaction d'[ADRs](https://github.com/joelparkerhenderson/architecture_decision_record) ou bien en aval, avec la rédaction de comptes
+rendus d'incident, par exemple. Cet effort redactionnel, bien que coûteux en
+temps permet en définitive d'expliciter un problème de manière exhaustive, les
+décisions qui ont été prises pour y faire face, et en quoi ces décisions étaient
+pertinentes, où non. Il n'est d'ailleurs plus temps, à ce stade, de questionner
+ces décisions, mais plutôt d'essayer de construire sur ce qu'elles ont apportées.
+De plus, le temps de l'ecriture, au delà de l'act d'écrire lui même, offre
+d'ancrer plus profondément le savoir et de faire émerger de nouvelles hypothèses
+en réponse au problème posé:
+
+"It is particularly useful to lecture on your field [...], even if it is just for
+your own personal use. You will eventually be able to internalise even very
+difficult results using efficient mental shorthand; this not only allows you to
+use these results effortlessly, and improve your own ability in the field, but
+also frees up mental space to learn even more material."
+
+Tao T., ["Learn and relearn your field", ](https://terrytao.wordpress.com/career-advice/learn-and-relearn-your-field/)
 
 
-
--> Relearn your field - Terrence Tao
+## Un corrolaire: la peur de se tromper
 
 Par corrolaire, la peur de se tromper bloque
+
+-> le jugement des pairs + evaluation de la performance très difficile compte tenu de ce que l'on produit (matière intellectuelle)
+-> le problème du temps
+-> conclure sur le droit a l'erreur
+
 
 La ou certains vont être stimulés par une très forte pression sur les délais, on
 peut observer dans des conditions similaires des situations de tétanies chez
@@ -72,22 +92,10 @@ le fait d'apprendre c'est surtout une question de comment tu fait fassea l'echec
 -> essai / echec / autre essai / apprentissage
 -> droit a l'erreur (eve)
 
--> cas de la france ou on es pas encouragé a faire ca (lycée ?)
-
-- Le rôle de l'échec dans l'apprentissage
-
 - En finir avec le mythe d'apprendre à apprendre
-
 - Les differents profils d'apprentissage
 
-- Le problème du temps
 
-- La peur de se tromper comme frein a l'apprentissage
--> renforcé par le jugement par les pairs (code reviews)
--> les délais (problème du temps)
-
-Evaluation de la performance très difficile compte tenu de ce que l'on produit
--> de la matière intellectuelle
 
 Qu'est ce qui fait qe c'est plus "simple" pour certains que pour d'autres ?
 
@@ -96,6 +104,3 @@ HS ?
 capacité a comprendre un problème
 a y répondre
 tout en mainteannt un equilibre entre technicté et efficacité
-
-
-"Cultivez vous, c'est ce qui fait que vous réussirez dans la vie" N Fauchère
