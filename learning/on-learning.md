@@ -23,12 +23,12 @@ Qu'est ce qui nous facilite où nous complique la vie lorsqu'il s'agit de
 s'approprier un sujet qui nous est en partie, sinon complètement inconnu ? Une
 autre question a laquelle nous sommes confrontés régulièrement - et qui n'est pas
 moindre - concerne le fait d'avoir, en plus, à constamment réapprendre notre champ
-de compétence.
-
-??????
-Ces questions sont très personnelles, et fortement dépendantes de l'histoire de
-chacun, c'est pourquoi les réflexions menées ici ne sont qu'une tentative de
-mettre a plat
+de compétence. Ces questions étant très personnelles, et fortement dépendantes de
+l'histoire de chacun, les idées posées ici ne sont qu'une tentative de les mettre
+à plat. Néanmoins, il me semble riche de les faire raisonner avec l'experience
+parfois radicalement opposé des personnes avec qui je travaille qutodiennement.
+La fin de cet article relatera donc certaines de ces approches différentes sous
+la forme de témoignages.
 
 
 ## L'erreur comme vecteur d'apprentissage
@@ -58,10 +58,7 @@ rendus d'incident, par exemple. Cet effort redactionnel, bien que coûteux en
 temps permet en définitive d'expliciter un problème de manière exhaustive, les
 décisions qui ont été prises pour y faire face, et en quoi ces décisions étaient
 pertinentes, où non. Il n'est d'ailleurs plus temps, à ce stade, de questionner
-ces décisions, mais plutôt d'essayer de construire sur ce qu'elles ont apportées.
-De plus, le temps de l'ecriture, au delà de l'act d'écrire lui même, offre
-d'ancrer plus profondément le savoir et de faire émerger de nouvelles hypothèses
-en réponse au problème posé:
+ces décisions, mais plutôt d'essayer de construire sur ce qu'elles ont apportées:
 
 "It is particularly useful to lecture on your field [...], even if it is just for
 your own personal use. You will eventually be able to internalise even very
@@ -71,6 +68,16 @@ also frees up mental space to learn even more material."
 
 Tao T., ["Learn and relearn your field", ](https://terrytao.wordpress.com/career-advice/learn-and-relearn-your-field/)
 
+On le voit, le temps de l'ecriture, au delà de l'act d'écrire lui même, offre
+d'ancrer plus profondément le savoir et de faire émerger de nouvelles hypothèses
+en réponse au problème posé.
+
+## Des profils d'apprentissage multiples
+
+- En finir avec le mythe d'apprendre à apprendre
+- Les differents profils d'apprentissage
+-> conclure en citant un type de profil qui peut avoir peur de se tromper pour
+lier avec la partie suivant ?
 
 ## Un corrolaire: la peur de se tromper
 
@@ -92,8 +99,7 @@ le fait d'apprendre c'est surtout une question de comment tu fait fassea l'echec
 -> essai / echec / autre essai / apprentissage
 -> droit a l'erreur (eve)
 
-- En finir avec le mythe d'apprendre à apprendre
-- Les differents profils d'apprentissage
+
 
 
 
