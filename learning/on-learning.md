@@ -23,12 +23,13 @@ Qu'est ce qui nous facilite où nous complique la vie lorsqu'il s'agit de
 s'approprier un sujet qui nous est en partie, sinon complètement inconnu ? Une
 autre question a laquelle nous sommes confrontés régulièrement - et qui n'est pas
 moindre - concerne le fait d'avoir, en plus, à constamment réapprendre notre champ
-de compétence. Ces questions étant très personnelles, et fortement dépendantes de
-l'histoire de chacun, les idées posées ici ne sont qu'une tentative de les mettre
-à plat. Néanmoins, il me semble riche de les faire raisonner avec l'experience
-parfois radicalement opposé des personnes avec qui je travaille qutodiennement.
-La fin de cet article relatera donc certaines de ces approches différentes sous
-la forme de témoignages.
+de compétence. En effet, un problème si simple soit il n'est jamais définitivement
+résolu, car il existe toujours des façons plurielles d'y répondre. Ces questions
+étant très personnelles, et fortement dépendantes de l'histoire de chacun, il ne
+s'agit la que d'une tentative de les mettre à plat. Néanmoins, il me semble
+riche de les faire raisonner avec l'experience parfois radicalement opposé des
+personnes avec qui je travaille qutodiennement. La fin de cet article relatera
+donc certaines de ces approches différentes sous la forme de témoignages.
 
 
 ## L'erreur comme vecteur d'apprentissage
