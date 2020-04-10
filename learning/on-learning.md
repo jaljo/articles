@@ -6,8 +6,8 @@ Depuis le moment où j'ai postulé chez KNP jusqu'à aujourd'hui, ce leitmotiv
 m'accompagne, a tord ou a raison d'ailleurs, et m'interroge. Parce qu'en tant
 que développeur, notre capacité à sortir de notre zone de confort, à remettre en
 question ce que l'on crois acquis et, plus généralement, la question de comment
-apprendre efficacement et durablement de nouvelles choses est - je crois - la
-question la plus essentielle que l'on ait à se poser.
+apprendre efficacement et durablement de nouvelles choses est - je crois - une
+question essentielle que l'on a à se poser.
 
 D'une part parce qu'elle est en partie garante de notre survie dans un milieu aussi
 mouvant et peu défini que peut l'être le développement, particulièrement dans
@@ -25,9 +25,47 @@ autre question a laquelle nous sommes confrontés régulièrement - et qui n'est
 moindre - concerne le fait d'avoir, en plus, à constamment réapprendre notre champ
 de compétence.
 
+Ces questions sont très personnelles, et fortement dépendantes de l'histoire de
+chacun, c'est pourquoi les réflexions menées ici ne sont qu'une tentative de
+mettre a plat
+
+
+## L'erreur comme vecteur d'apprentissage
+
+![](https://img.devrant.com/devrant/rant/r_464533_gMBvP.jpg)
+
+En france, et particulièrement dans l'enseignement secondaire, la place laissé
+à l'erreur individuelle est négligeable. Les leçons doivent être apprises, sues
+et leur application immédiate. C'est particulièrement vrai dans les matières
+scientifiques, ou la réflexion est de plus en plus délaissé au profit d'exercices
+calculatoires répétitifs, qui visent moins l'acquisition d'une compétence de celui
+qui les pratique que la résolution de problèmes types pour l'obtention d'un examen
+(type lui aussi). Il n'est pas question ici de dépeindre une réalité universelle,
+mais plutot d'essayer de montrer que ce type d'enseignement ne permet pas de faire
+**tôt** l'experience de l'erreur, en ce qu'elle n'a rien de sanctionnable.
+
+Enrichie du contexte dans lequel elle a été commise (mauvaise définition ou
+compréhension du problème, mauvais choix d'outil pour y répondre), l'erreur,
+lorsqu'elle va de pair avec l'analyse, favorise un apprentissage durable parce
+qu'elle repose avant tout sur l'experience. Une des choses qui m'a le plus
+surprise lorsque j'ai rejoint KNP, c'est la sérénité avec laquelle certains
+arrivaient à accueillir leur propres erreurs et les moyens qui avaient été mis
+en place pour capitaliser sur ce qu'ils avaient appris. J'ai remarqué chez eux
+une corrélation forte entre cette assurance et leur capacité à documenter un
+problème de façon exhaustive, que ce soir en amont avec la rédaction d'[ADRs](https://github.com/joelparkerhenderson/architecture_decision_record) ou bien en aval, avec la rédaction de comptes
+rendus d'incident, par exemple.
+
+
 
 -> Relearn your field - Terrence Tao
 
+Par corrolaire, la peur de se tromper bloque
+
+La ou certains vont être stimulés par une très forte pression sur les délais, on
+peut observer dans des conditions similaires des situations de tétanies chez
+d'autres.
+
+J'ai la chance de travailler sur un projet qui favorise
 
 
 le fait d'apprendre c'est surtout une question de comment tu fait fassea l'echec ?
