@@ -180,6 +180,6 @@ tout en mainteannt un equilibre entre technicté et efficacité
 
 ## Sources
 
-(1) T. Tao, ["Learn and relearn your field"](https://terrytao.wordpress.com/career-advice/learn-and-relearn-your-field/)
-(2) D. Chartier, ["Les styles d'apprentissage : entre flou conceptuel et intérêt pratique", Savoirs 2003/2 (n° 2), pages 7 à 28](https://www.cairn.info/revue-savoirs-2003-2-page-7.htm)
-(3) Daniel T. Willingham, Elizabeth M. Hughes et David G. Dobolyi, ["The Scientific Status of Learning Styles Theories", Teaching of Psychology, vol. 42, no 3,‎ juillet 2015, p. 266–271](https://www.researchgate.net/publication/278666610_The_Scientific_Status_of_Learning_Styles_Theories)
+- (1) T. Tao, ["Learn and relearn your field"](https://terrytao.wordpress.com/career-advice/learn-and-relearn-your-field/)
+- (2) D. Chartier, ["Les styles d'apprentissage : entre flou conceptuel et intérêt pratique", Savoirs 2003/2 (n° 2), pages 7 à 28](https://www.cairn.info/revue-savoirs-2003-2-page-7.htm)
+- (3) Daniel T. Willingham, Elizabeth M. Hughes et David G. Dobolyi, ["The Scientific Status of Learning Styles Theories", Teaching of Psychology, vol. 42, no 3,‎ juillet 2015, p. 266–271](https://www.researchgate.net/publication/278666610_The_Scientific_Status_of_Learning_Styles_Theories)
