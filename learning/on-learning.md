@@ -65,15 +65,58 @@ ces décisions, mais plutôt d'essayer de construire sur ce qu'elles ont apport�
 your own personal use. You will eventually be able to internalise even very
 difficult results using efficient mental shorthand; this not only allows you to
 use these results effortlessly, and improve your own ability in the field, but
-also frees up mental space to learn even more material."
-
-Tao T., ["Learn and relearn your field", ](https://terrytao.wordpress.com/career-advice/learn-and-relearn-your-field/)
+also frees up mental space to learn even more material." (1)
 
 On le voit, le temps de l'ecriture, au delà de l'act d'écrire lui même, offre
 d'ancrer plus profondément le savoir et de faire émerger de nouvelles hypothèses
 en réponse au problème posé.
 
-## Des profils d'apprentissage multiples
+
+## En finir avec le mythe d'apprendre à apprendre
+
+La diversité des typologies comportementales que l'on trouve au sein d'une même
+équipe entraîne qu'on ne peut pas généraliser ce qui précède. Ces questions sont
+pour la première fois étudiées à la fin du XIXe siecle, qui voit l'émergence
+d'une nouvelle discipline universitaire, les sciences de l'éducation. Une branche
+contestée de la recherche dans cette discipline concerne la théorie des styles
+d'apprentissage, qui étudie les liens entre les spécificités individuelles et
+les mécanismes structurels d'apprentissage:
+
+"Ce qui peut expliquer leur réussite ou leur échec n’est pas seulement une
+question de niveau d’efficience, mais aussi les façons différentes dont ils
+perçoivent, stockent, traitent et restituent l’information, la façon dont ils
+construisent leur base de connaissance." (2)
+
+Précisons que cette théorie est loin de faire l'unanimité dans la
+communauté scientifique, notamment parce que la classification des individus sur
+la base de facteurs psychologique, par définition excessivement difficiles à
+démontrer, suppose que l'on prenne garde aux bias cognitifs qu'elle implique.
+Pour autant, je trouve qu'elle mérite que l'on s'y interesse. Essayer d'identifier
+les **motivations** en jeu au moment de l'acquisition d'une nouvelle compétence
+à été véritablement utile pour moi.
+Je sais par exemple désormais, même si cela rompt avec l'image idéalisée et
+désintéressé que je me faisait  de l'apprentissage, qu'une part importante de ma
+motivation provient de la promesse de reconnaissance sociale qu'il peut y avoir
+à la clef. Mettez moi devant la personne la plus brillante qui soit dans son
+domaine mais qui ne donne aucun retour, vous pouvez être certain que je n'en
+retiendrais rien. Pire, ce type d'attitude peut même s'avérer complètement contre
+productif, car potentiellement a l'origine de pensées parasites qui peuvent, chez
+moi, totalement inhiber la rétention de l'information.
+
+Dans cet exemple, le besoin de reconaissance n'a strictement aucun intérêt en
+soi. En revanche **le fait de savoir que ce besoin existe** permet d'y porter
+davantage attention et d'opérer, quand c'est possible, des choix vertueux en
+matière de pédagogie et d'apprentissage. Dans mon cas, c'est ce qui m'a entre
+autre permis de m'intégrer facilement au sein de KNP. Prenons un instant pour
+faire un bisou à M. [Nicolas Mure](https://github.com/nm2107) et [M. David Jegat](https://github.com/Djeg)
+qui ont été les fins architectes de cette réussite.
+
+
+
+Ce
+n'est qu'un exemple des moyens à notre disposition pour progresser collectivement
+mais également à une échelle plus personnelle.
+
 
 - En finir avec le mythe d'apprendre à apprendre
 - Les differents profils d'apprentissage
@@ -111,3 +154,9 @@ HS ?
 capacité a comprendre un problème
 a y répondre
 tout en mainteannt un equilibre entre technicté et efficacité
+
+
+## Sources
+
+(1). Tao T., ["Learn and relearn your field"](https://terrytao.wordpress.com/career-advice/learn-and-relearn-your-field/)
+(2). Chartier D., ["Les styles d'apprentissage : entre flou conceptuel et intérêt pratique", Savoirs 2003/2 (n° 2), pages 7 à 28](https://www.cairn.info/revue-savoirs-2003-2-page-7.htm)
