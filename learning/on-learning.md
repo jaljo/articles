@@ -110,7 +110,7 @@ autre permis de m'intégrer facilement au sein de KNP. Prenons un instant pour
 faire un bisou à M. [Nicolas Mure](https://github.com/nm2107) et [M. David Jegat](https://github.com/Djeg)
 qui ont été les fins architectes de cette réussite.
 
-!()[https://media.giphy.com/media/yidUzriaAGJbsxt58k/giphy.gif]
+![](https://media.giphy.com/media/yidUzriaAGJbsxt58k/giphy.gif)
 
 On entend depuis plusieurs années cette fameuse expression, devenue quasi
 litanie, "il faut apprendre à apprendre". Ce qui sous-tend cette idée, bien que
