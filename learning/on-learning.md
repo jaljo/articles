@@ -44,7 +44,7 @@ calculatoires répétitifs, qui visent moins l'acquisition d'une compétence de 
 qui les pratique que la résolution de problèmes types pour l'obtention d'un examen
 (type lui aussi). Il n'est pas question ici de dépeindre une réalité universelle,
 mais plutot d'essayer de montrer que ce type d'enseignement ne permet pas de faire
-**tôt** l'experience de l'erreur, en ce qu'elle n'a rien de sanctionnable.
+tôt l'experience de l'erreur, en ce qu'elle n'a rien de sanctionnable.
 
 Enrichie du contexte dans lequel elle a été commise (mauvaise définition ou
 compréhension du problème, mauvais choix d'outil pour y répondre), l'erreur,
@@ -80,7 +80,7 @@ pour la première fois étudiées à la fin du XIXe siecle, qui voit l'émergenc
 d'une nouvelle discipline universitaire, les sciences de l'éducation. Une branche
 contestée de la recherche dans cette discipline concerne la théorie des styles
 d'apprentissage, qui étudie les liens entre les spécificités individuelles et
-les mécanismes structurels d'apprentissage:
+les mécanismes structurels de l'apprentissage:
 
 "Ce qui peut expliquer leur réussite ou leur échec n’est pas seulement une
 question de niveau d’efficience, mais aussi les façons différentes dont ils
@@ -91,39 +91,61 @@ Précisons que cette théorie est loin de faire l'unanimité dans la
 communauté scientifique, notamment parce que la classification des individus sur
 la base de facteurs psychologique, par définition excessivement difficiles à
 démontrer, suppose que l'on prenne garde aux bias cognitifs qu'elle implique.
-Pour autant, je trouve qu'elle mérite que l'on s'y interesse. Essayer d'identifier
-les **motivations** en jeu au moment de l'acquisition d'une nouvelle compétence
-à été véritablement utile pour moi.
-Je sais par exemple désormais, même si cela rompt avec l'image idéalisée et
-désintéressé que je me faisait  de l'apprentissage, qu'une part importante de ma
+Un des aspect fondamental de cette théorie nous encourage à nous intéresser aux
+motivations personnelles en jeu au moment de l'acquisition d'une nouvelle
+compétence. Je sais par exemple désormais, même si cela rompt avec l'image idéalisée et
+désintéressé que je me faisait de l'apprentissage, qu'une part importante de ma
 motivation provient de la promesse de reconnaissance sociale qu'il peut y avoir
 à la clef. Mettez moi devant la personne la plus brillante qui soit dans son
 domaine mais qui ne donne aucun retour, vous pouvez être certain que je n'en
 retiendrais rien. Pire, ce type d'attitude peut même s'avérer complètement contre
-productif, car potentiellement a l'origine de pensées parasites qui peuvent, chez
+productive, car potentiellement a l'origine de pensées parasites qui peuvent, chez
 moi, totalement inhiber la rétention de l'information.
 
 Dans cet exemple, le besoin de reconaissance n'a strictement aucun intérêt en
-soi. En revanche **le fait de savoir que ce besoin existe** permet d'y porter
+soi. En revanche le fait de savoir que ce besoin existe permet d'y porter
 davantage attention et d'opérer, quand c'est possible, des choix vertueux en
 matière de pédagogie et d'apprentissage. Dans mon cas, c'est ce qui m'a entre
 autre permis de m'intégrer facilement au sein de KNP. Prenons un instant pour
 faire un bisou à M. [Nicolas Mure](https://github.com/nm2107) et [M. David Jegat](https://github.com/Djeg)
 qui ont été les fins architectes de cette réussite.
 
+!()[https://media.giphy.com/media/yidUzriaAGJbsxt58k/giphy.gif]
 
+On entend depuis plusieurs années cette fameuse expression, devenue quasi
+litanie, "il faut apprendre à apprendre". Ce qui sous-tend cette idée, bien que
+laissé libre à l'interprétation de chacun, me semble trompeur, car elle peut
+parfois faire oublier que l'apprentissage nécessite avant tout un effort.
+Que l'envie d'apprendre travestisse cet effort en plaisir n'implique pas pour
+autant qu'il n'existe plus. Nous sommes nombreux a avoir abbatu une quantité
+considérable de travail sous l'ipulsion d'une envie. Et nous ne sommes pas moins
+nombreux, à mon avis, à devoir aller consulter la doc de `array_key_exists` sur
+internet parce que nous n'avons jamais fait l'effort de retenir l'ordre des
+arguments de cette petite fonction. La question de comment l'apprendre fait
+partie intégrate du processus d'apprentissage, c'est evident. Mais elle ne doit
+pas faire perdre de vue la finalité: c'est en apprenant, au sens de retenir, que
+l'on se dote d'une meilleure compréhension, en profondeur, d'un sujet mais
+également de nous même dans notre rapport à l'apprentissage. L'inverse me semble
+difficilement réalisable.
 
-Ce
-n'est qu'un exemple des moyens à notre disposition pour progresser collectivement
-mais également à une échelle plus personnelle.
-
-
-- En finir avec le mythe d'apprendre à apprendre
-- Les differents profils d'apprentissage
--> conclure en citant un type de profil qui peut avoir peur de se tromper pour
-lier avec la partie suivant ?
 
 ## Un corrolaire: la peur de se tromper
+
+Les grilles de lecture héritées de la théorie des styles d'apprentissage ne
+permettent pas toujours de voir les subtilités chez les individus car, en
+cherchant à les caractériser, elles les enferment bien souvent dans leur catégorie
+(il y'a par exemple une forte contestation sur l'existance de différents mode
+d'acquisition: visuels, auditifs et kinesthésiques (3), alors que cette idée était
+révolutionnaire lorsqu'elle est apparue). Cela étant dit, il ne fait aucun
+doute que nous ne sommes pas tous egaux en situation d'apprentissage, et c'est
+particulièrement vrai en contexte profesionnel.
+
+Quelqu'un qui aura peur de se tromper, par exemple, verra sa progression ralentie
+par rapport a quelqu'un, a potentiel équivalent qui en est dénué. Simplement
+parce que la part intellectuelle dédiée à l'effort nécéssaire sera restreinte
+dans le cas de l'un, mais pas chez l'autre.
+
+...
 
 Par corrolaire, la peur de se tromper bloque
 
@@ -158,5 +180,6 @@ tout en mainteannt un equilibre entre technicté et efficacité
 
 ## Sources
 
-(1). Tao T., ["Learn and relearn your field"](https://terrytao.wordpress.com/career-advice/learn-and-relearn-your-field/)
-(2). Chartier D., ["Les styles d'apprentissage : entre flou conceptuel et intérêt pratique", Savoirs 2003/2 (n° 2), pages 7 à 28](https://www.cairn.info/revue-savoirs-2003-2-page-7.htm)
+(1) T. Tao, ["Learn and relearn your field"](https://terrytao.wordpress.com/career-advice/learn-and-relearn-your-field/)
+(2) D. Chartier, ["Les styles d'apprentissage : entre flou conceptuel et intérêt pratique", Savoirs 2003/2 (n° 2), pages 7 à 28](https://www.cairn.info/revue-savoirs-2003-2-page-7.htm)
+(3) Daniel T. Willingham, Elizabeth M. Hughes et David G. Dobolyi, ["The Scientific Status of Learning Styles Theories", Teaching of Psychology, vol. 42, no 3,‎ juillet 2015, p. 266–271](https://www.researchgate.net/publication/278666610_The_Scientific_Status_of_Learning_Styles_Theories)
