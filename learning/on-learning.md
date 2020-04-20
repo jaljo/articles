@@ -140,50 +140,48 @@ d'acquisition visuels, auditifs et kinesthésiques (3), alors que cette idée é
 révolutionnaire lorsqu'elle est apparue). Cela étant dit, il ne fait aucun
 doute que nous ne sommes pas tous egaux en situation d'apprentissage, et c'est
 particulièrement vrai en contexte profesionnel. Quelqu'un qui aura peur de se
-tromper, par exemple, verra sa progression ralentie par rapport a quelqu'un, a
-potentiel équivalent qui en est dénué. Simplement parce que la part intellectuelle
+tromper, par exemple, verra sa progression ralentie par rapport a quelqu'un qui, a
+potentiel équivalent, en est dénué. Simplement parce que la part intellectuelle
 dédiée à l'effort nécéssaire sera restreinte dans le cas de l'un, mais pas chez
 l'autre.
 
-Nous avons intégrés la code review à notre flux de travail depuis plusieurs
-années déjà, donc tout code déployée en production est nécéssairement relue par
+KNP a intégrés la code review aux flux de travail de ses projets depuis plusieurs
+années déjà, tout code déployée en production est donc nécéssairement relu par
 au moins un, parfois plusieurs développeurs. L'intérêt est double:
-D'une part, la responsabilité de ce qui est déployé est répartie sur toute l'équipe,
-au lieu qu'elle le soit sur une seule personne. Un projet n'est plus un assemblage
-de pièces réalisés individuellement et qui cohabitent, mais bien une réalisation
-collective. Chacun, même si il n'est pas a l'origine du code produit, prend activement
-part à son existance, en formulant des suggestions qui sont le fruit de sa propre
-expérience.
+D'une part, la responsabilité de ce qui est livré est répartie sur toute l'équipe,
+au lieu qu'elle le soit sur une seule personne. Un projet n'est plus une cohabitation
+de pièces réalisés individuellement, mais bien une réalisation collective. Chacun,
+même si il n'est pas a l'origine du code produit, prend activement part à son
+existance, en formulant des suggestions qui sont le fruit de sa propre expérience.
 D'autre part, montrer ce qui à été fait aux autres et, réciproquement, porter
 attention à leur travail, renforce la confiance collective grâce à la confrontation
-de ses propres erreurs avec celles des autres. Même si l'évaluation par les pairs
+de nos propres erreurs avec celles des autres. Même si l'évaluation par les pairs
 peut parfois être d'une difficulté insondable, ses vertues pédagogiques sont
-conrètes, autant pour celui qui la donne que pour celui qui la reçoit, à la
+concrètes, autant pour celui qui la donne que pour celui qui la reçoit, à la
 condition bien sûr qu'elle se fasse dans une perspective de progression commune.
-Encore faut il disposer des moyens et d'un environnement suffisament sain pour
-faire exister cette possibilités.
+Encore faut-il pour cela disposer des moyens et d'un environnement suffisament
+sain pour faire exister cette possibilités.
 
 De façon analogue, là ou certains seront stimulés par une très forte pression
 sur les délais, on pourra observer dans des conditions similaires des situations
-de tétanies chez d'autres, et il va sans dire qu'il existe tout un pannel d'autres
+de tétanies chez d'autres, et il va sans dire qu'il existe tout un pannel de
 réactions entre ces deux extrêmes. Acquérir, pratiquer pour finalement intégrer
 nécessite des temps distincts qui se chevauchent et se synchronise différemment
 en fonction des individus. Pour cette raison, le problème du temps en entreprise
 et la façon dont celui ci est géré semble indissociable de notre sujet. J'ai la
-chance de travailler sur un projet où la contrainte du temps est peu présente,
-et il est évident aujourd'hui que cela m'a grandement aidé. A progresser, à
-persévérer et peut être plus important encore, à comprendre. Il m'a fallu beaucoup
-de temps (encore une fois !) pour accepter que je ne gèrais pas bien cette
-contrainte et encore davantage pour comprendre que ca ne faisait pas pour autant
-de moi un développeur médiocre.
+chance de travailler sur un projet où cette contrainte est peu présente, et il
+est évident aujourd'hui que cela m'a grandement aidé. A progresser, à persévérer
+et peut être plus important encore, à comprendre. Il m'a fallu beaucoup de temps
+(encore une fois !) pour accepter que je ne gèrais pas bien cette contrainte et
+encore davantage pour comprendre que ca ne faisait pas pour autant de moi un
+développeur médiocre.
 Peu après mon arrivée, mon très estimé collègue [Piere Plazanet](https://github.com/PedroTroller),
-internationnalement connu pour ses blagues de mauvaise qualité, à dit un jour
+internationnalement connu pour ses blagues de mauvaise qualité, à déclaré :
 "En tant que développeur, ce que l'on produit, c'est de la matière intellectuelle".
 Le temps facturé au client ne reflète pas uniquement celui passé dans le développement
 effectif de sa solution, c'est également le résultat d'un apprentissage durable,
 s'exercant sur un sujet volatile qui requiert parfois des années d'efforts et
-de remises en questions. Cela pose la question de l'évaluation, laquelle fait à
-nouveau intervenir à la fois le paramètre du temps, mais également celui du jugement.
+de remises en questions.
 
 
 ## Conclusion
@@ -192,9 +190,26 @@ Le droit a l'erreur est loin d'aller de soi en entreprise. Toute personne qui à
 un jour approché (même de loin, sans le faire exprès) un cours de théorie des
 organisations aura déjà entendu parler d'"évaluation de la performance", qui
 malgré l'utilisation à tord et à travers du champ lexical de la bienveillance par
-les happiness manager et autres chefs de projets déguisés, reste une réalité
-froide dès le moment où l'on cherche a équilibrer des coûts et des recettes au
-lieu de se préoccuper des personnes.
+les happiness manager et autres chefs de projets déguisés, reste une réalité en
+milieu professionnel. Dès lors, que faut il prendre en compte ? La vélocité ? La
+capacité à prendre des initiatives ? Le relationnel ? La virtuosité technique, si
+ça se trouve ! Comment peut elle être juste lorsqu'elle repose sur des critères
+aussi variables et contextuels que le temps où la capacité à apprendre de ses
+erreurs ? La question de l'évaluation fait intervenir des paramètres éminemment
+subjectifs qui relèvent en grande partie du jugement.
+
+Il y'a deux ans, je m'étonnais sincèrement de voir certains de mes collègues
+prendre parfois une après midi entière pour lire des articles, où même en écrire.
+Et on ne parle pas ici de "veille stratégique d'entreprise", ils faisaient juste
+leur putain de métier. Si d'aventure je considérais chaque instant passé à ne pas
+produire comme étant potentiellement perdue (avec les dangers que cela pouvait
+impliquer), le temps passé à apprendre me semble aujourd'hui indissociable du
+fait de fournir de la qualité. Plus encore, j'ai compris que ce temps n'etait pas
+annexe au temps d'exercice de mon métier mais en faisait partie intégrante.
+
+Pour avancer, donc il aura fallu que j'apprène à me planter. Et pour comprendre
+ça, pas loin de 30 ans, dont les deux dernieres années dans une boîte pas comme
+les autres.
 
 
 ## Sources
@@ -209,8 +224,13 @@ lieu de se préoccuper des personnes.
 
 
 **???**
-Je me souviens distinctement avoir
-vécu quelques mois avec la sensation d'être entouré de "dev heros", ces développeurs
+
+
+
+
+
+Quand j'ai rejoint KNP, je me souviens distinctement avoir
+vécu plusieurs mois avec la sensation d'être entouré de "dev heros", ces développeurs
 qui produisent huit fois plus vite que les autres, parlent 25 langues et n'ont
 besoin que de 4h de sommeil pour être opérationnels. La code review est un
 formidable outil de démystification de ce genre de considérations anxiogènes.
