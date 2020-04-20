@@ -74,13 +74,14 @@ en réponse au problème posé.
 
 ## En finir avec le mythe d'apprendre à apprendre
 
-La diversité des typologies comportementales que l'on trouve au sein d'une même
-équipe entraîne qu'on ne peut pas généraliser ce qui précède. Ces questions sont
-pour la première fois étudiées à la fin du XIXe siecle, qui voit l'émergence
-d'une nouvelle discipline universitaire, les sciences de l'éducation. Une branche
-contestée de la recherche dans cette discipline concerne la théorie des styles
-d'apprentissage, qui étudie les liens entre les spécificités individuelles et
-les mécanismes structurels de l'apprentissage:
+Les typologies comportementales que l'on trouve au sein d'une même équipe sont
+toutefois multiples et nous amène à ne pas considérer comme universel ce qui à
+été développé dans la partie précédente. Ces questions sont pour la première fois
+étudiées à la fin du XIXe siecle, qui voit l'émergence d'une nouvelle discipline
+universitaire, les sciences de l'éducation. Une branche contestée de la recherche
+dans cette discipline concerne la théorie des styles d'apprentissage, qui étudie
+les liens entre les spécificités individuelles et les mécanismes structurels de
+l'apprentissage:
 
 "Ce qui peut expliquer leur réussite ou leur échec n’est pas seulement une
 question de niveau d’efficience, mais aussi les façons différentes dont ils
@@ -97,7 +98,7 @@ compétence. Je sais par exemple désormais, même si cela rompt avec l'image id
 désintéressé que je me faisait de l'apprentissage, qu'une part importante de ma
 motivation provient de la promesse de reconnaissance sociale qu'il peut y avoir
 à la clef. Mettez moi devant la personne la plus brillante qui soit dans son
-domaine mais qui ne donne aucun retour, vous pouvez être certain que je n'en
+domaine mais sans aucune affection, vous pouvez être certain que je n'en
 retiendrais rien. Pire, ce type d'attitude peut même s'avérer complètement contre
 productive, car potentiellement a l'origine de pensées parasites qui peuvent, chez
 moi, totalement inhiber la rétention de l'information.
@@ -112,21 +113,21 @@ qui ont été les fins architectes de cette réussite.
 
 ![](https://media.giphy.com/media/yidUzriaAGJbsxt58k/giphy.gif)
 
-On entend depuis plusieurs années cette fameuse expression, devenue quasi
+Pour finir, on entend depuis plusieurs années cette fameuse expression, devenue quasi
 litanie, "il faut apprendre à apprendre". Ce qui sous-tend cette idée, bien que
 laissé libre à l'interprétation de chacun, me semble trompeur, car elle peut
 parfois faire oublier que l'apprentissage nécessite avant tout un effort.
 Que l'envie d'apprendre travestisse cet effort en plaisir n'implique pas pour
 autant qu'il n'existe plus. Nous sommes nombreux a avoir abbatu une quantité
-considérable de travail sous l'ipulsion d'une envie. Et nous ne sommes pas moins
+considérable de travail sous l'impulsion d'une envie. Et nous ne sommes pas moins
 nombreux, à mon avis, à devoir aller consulter la doc de `array_key_exists` sur
 internet parce que nous n'avons jamais fait l'effort de retenir l'ordre des
 arguments de cette petite fonction. La question de comment l'apprendre fait
-partie intégrate du processus d'apprentissage, c'est evident. Mais elle ne doit
-pas faire perdre de vue la finalité: c'est en apprenant, au sens de retenir, que
-l'on se dote d'une meilleure compréhension, en profondeur, d'un sujet mais
-également de nous même dans notre rapport à l'apprentissage. L'inverse me semble
-difficilement réalisable.
+partie intégrate du processus d'apprentissage, c'est evident, et elle varie en
+fonction de chacun. Mais elle ne doit pas faire perdre de vue la finalité: c'est
+en apprenant, au sens de retenir, que l'on se dote d'une meilleure compréhension,
+en profondeur, d'un sujet mais également de nous même dans notre rapport à
+l'apprentissage. L'inverse me semble difficilement réalisable.
 
 
 ## Un corrolaire: la peur de se tromper
@@ -135,47 +136,65 @@ Les grilles de lecture héritées de la théorie des styles d'apprentissage ne
 permettent pas toujours de voir les subtilités chez les individus car, en
 cherchant à les caractériser, elles les enferment bien souvent dans leur catégorie
 (il y'a par exemple une forte contestation sur l'existance de différents mode
-d'acquisition: visuels, auditifs et kinesthésiques (3), alors que cette idée était
+d'acquisition visuels, auditifs et kinesthésiques (3), alors que cette idée était
 révolutionnaire lorsqu'elle est apparue). Cela étant dit, il ne fait aucun
 doute que nous ne sommes pas tous egaux en situation d'apprentissage, et c'est
-particulièrement vrai en contexte profesionnel.
+particulièrement vrai en contexte profesionnel. Quelqu'un qui aura peur de se
+tromper, par exemple, verra sa progression ralentie par rapport a quelqu'un, a
+potentiel équivalent qui en est dénué. Simplement parce que la part intellectuelle
+dédiée à l'effort nécéssaire sera restreinte dans le cas de l'un, mais pas chez
+l'autre.
 
-Quelqu'un qui aura peur de se tromper, par exemple, verra sa progression ralentie
-par rapport a quelqu'un, a potentiel équivalent qui en est dénué. Simplement
-parce que la part intellectuelle dédiée à l'effort nécéssaire sera restreinte
-dans le cas de l'un, mais pas chez l'autre.
+Nous avons intégrés la code review à notre flux de travail depuis plusieurs
+années déjà, donc tout code déployée en production est nécéssairement relue par
+au moins un, parfois plusieurs développeurs. L'intérêt est double:
+D'une part, la responsabilité de ce qui est déployé est répartie sur toute l'équipe,
+au lieu qu'elle le soit sur une seule personne. Un projet n'est plus un assemblage
+de pièces réalisés individuellement et qui cohabitent, mais bien une réalisation
+collective. Chacun, même si il n'est pas a l'origine du code produit, prend activement
+part à son existance, en formulant des suggestions qui sont le fruit de sa propre
+expérience.
+D'autre part, montrer ce qui à été fait aux autres et, réciproquement, porter
+attention à leur travail, renforce la confiance collective grâce à la confrontation
+de ses propres erreurs avec celles des autres. Même si l'évaluation par les pairs
+peut parfois être d'une difficulté insondable, ses vertues pédagogiques sont
+conrètes, autant pour celui qui la donne que pour celui qui la reçoit, à la
+condition bien sûr qu'elle se fasse dans une perspective de progression commune.
+Encore faut il disposer des moyens et d'un environnement suffisament sain pour
+faire exister cette possibilités.
 
-...
+De façon analogue, là ou certains seront stimulés par une très forte pression
+sur les délais, on pourra observer dans des conditions similaires des situations
+de tétanies chez d'autres, et il va sans dire qu'il existe tout un pannel d'autres
+réactions entre ces deux extrêmes. Acquérir, pratiquer pour finalement intégrer
+nécessite des temps distincts qui se chevauchent et se synchronise différemment
+en fonction des individus. Pour cette raison, le problème du temps en entreprise
+et la façon dont celui ci est géré semble indissociable de notre sujet. J'ai la
+chance de travailler sur un projet où la contrainte du temps est peu présente,
+et il est évident aujourd'hui que cela m'a grandement aidé. A progresser, à
+persévérer et peut être plus important encore, à comprendre. Il m'a fallu beaucoup
+de temps (encore une fois !) pour accepter que je ne gèrais pas bien cette
+contrainte et encore davantage pour comprendre que ca ne faisait pas pour autant
+de moi un développeur médiocre.
+Peu après mon arrivée, mon très estimé collègue [Piere Plazanet](https://github.com/PedroTroller),
+internationnalement connu pour ses blagues de mauvaise qualité, à dit un jour
+"En tant que développeur, ce que l'on produit, c'est de la matière intellectuelle".
+Le temps facturé au client ne reflète pas uniquement celui passé dans le développement
+effectif de sa solution, c'est également le résultat d'un apprentissage durable,
+s'exercant sur un sujet volatile qui requiert parfois des années d'efforts et
+de remises en questions. Cela pose la question de l'évaluation, laquelle fait à
+nouveau intervenir à la fois le paramètre du temps, mais également celui du jugement.
 
-Par corrolaire, la peur de se tromper bloque
 
--> le jugement des pairs + evaluation de la performance très difficile compte tenu de ce que l'on produit (matière intellectuelle)
--> le problème du temps
--> conclure sur le droit a l'erreur
+## Conclusion
 
-
-La ou certains vont être stimulés par une très forte pression sur les délais, on
-peut observer dans des conditions similaires des situations de tétanies chez
-d'autres.
-
-J'ai la chance de travailler sur un projet qui favorise
-
-
-le fait d'apprendre c'est surtout une question de comment tu fait fassea l'echec ?
--> essai / echec / autre essai / apprentissage
--> droit a l'erreur (eve)
-
-
-
-
-
-Qu'est ce qui fait qe c'est plus "simple" pour certains que pour d'autres ?
-
-HS ?
-
-capacité a comprendre un problème
-a y répondre
-tout en mainteannt un equilibre entre technicté et efficacité
+Le droit a l'erreur est loin d'aller de soi en entreprise. Toute personne qui à
+un jour approché (même de loin, sans le faire exprès) un cours de théorie des
+organisations aura déjà entendu parler d'"évaluation de la performance", qui
+malgré l'utilisation à tord et à travers du champ lexical de la bienveillance par
+les happiness manager et autres chefs de projets déguisés, reste une réalité
+froide dès le moment où l'on cherche a équilibrer des coûts et des recettes au
+lieu de se préoccuper des personnes.
 
 
 ## Sources
@@ -183,3 +202,16 @@ tout en mainteannt un equilibre entre technicté et efficacité
 - (1) T. Tao, ["Learn and relearn your field"](https://terrytao.wordpress.com/career-advice/learn-and-relearn-your-field/)
 - (2) D. Chartier, ["Les styles d'apprentissage : entre flou conceptuel et intérêt pratique", Savoirs 2003/2 (n° 2), pages 7 à 28](https://www.cairn.info/revue-savoirs-2003-2-page-7.htm)
 - (3) Daniel T. Willingham, Elizabeth M. Hughes et David G. Dobolyi, ["The Scientific Status of Learning Styles Theories", Teaching of Psychology, vol. 42, no 3,‎ juillet 2015, p. 266–271](https://www.researchgate.net/publication/278666610_The_Scientific_Status_of_Learning_Styles_Theories)
+
+
+
+
+
+
+**???**
+Je me souviens distinctement avoir
+vécu quelques mois avec la sensation d'être entouré de "dev heros", ces développeurs
+qui produisent huit fois plus vite que les autres, parlent 25 langues et n'ont
+besoin que de 4h de sommeil pour être opérationnels. La code review est un
+formidable outil de démystification de ce genre de considérations anxiogènes.
+**???**
