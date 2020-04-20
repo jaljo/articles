@@ -23,13 +23,13 @@ Qu'est ce qui nous facilite où nous complique la vie lorsqu'il s'agit de
 s'approprier un sujet qui nous est en partie, sinon complètement inconnu ? Une
 autre question a laquelle nous sommes confrontés régulièrement - et qui n'est pas
 moindre - concerne le fait d'avoir, en plus, à constamment réapprendre notre champ
-de compétence. En effet, un problème si simple soit il n'est jamais définitivement
+de compétence. En effet, un problème, si simple soit-il n'est jamais définitivement
 résolu, car il existe toujours des façons plurielles d'y répondre. Ces questions
 étant très personnelles, et fortement dépendantes de l'histoire de chacun, il ne
 s'agit la que d'une tentative de les mettre à plat. Néanmoins, il me semble
 riche de les faire raisonner avec l'experience parfois radicalement opposé des
-personnes avec qui je travaille qutodiennement. La fin de cet article relatera
-donc certaines de ces approches différentes sous la forme de témoignages.
+personnes avec qui je travaille qutodiennement. Un second article leur donnera
+la parole :)
 
 
 ## L'erreur comme vecteur d'apprentissage
@@ -74,9 +74,9 @@ en réponse au problème posé.
 
 ## En finir avec le mythe d'apprendre à apprendre
 
-Les typologies comportementales que l'on trouve au sein d'une même équipe sont
-toutefois multiples et nous amène à ne pas considérer comme universel ce qui à
-été développé dans la partie précédente. Ces questions sont pour la première fois
+L'apprentissage par l'erreur ne peut toutefois pas être considéré comme universel,
+au regard des différents comportements que l'on trouve au sein d'une même équipe.
+Ces questions sont pour la première fois
 étudiées à la fin du XIXe siecle, qui voit l'émergence d'une nouvelle discipline
 universitaire, les sciences de l'éducation. Une branche contestée de la recherche
 dans cette discipline concerne la théorie des styles d'apprentissage, qui étudie
@@ -98,7 +98,7 @@ compétence. Je sais par exemple désormais, même si cela rompt avec l'image id
 désintéressé que je me faisait de l'apprentissage, qu'une part importante de ma
 motivation provient de la promesse de reconnaissance sociale qu'il peut y avoir
 à la clef. Mettez moi devant la personne la plus brillante qui soit dans son
-domaine mais sans aucune affection, vous pouvez être certain que je n'en
+domaine mais sans aucuns encouragements, vous pouvez être certain que je n'en
 retiendrais rien. Pire, ce type d'attitude peut même s'avérer complètement contre
 productive, car potentiellement a l'origine de pensées parasites qui peuvent, chez
 moi, totalement inhiber la rétention de l'information.
@@ -201,7 +201,7 @@ subjectifs qui relèvent en grande partie du jugement.
 Il y'a deux ans, je m'étonnais sincèrement de voir certains de mes collègues
 prendre parfois une après midi entière pour lire des articles, où même en écrire.
 Et on ne parle pas ici de "veille stratégique d'entreprise", ils faisaient juste
-leur putain de métier. Si d'aventure je considérais chaque instant passé à ne pas
+leur métier. Si d'aventure je considérais chaque instant passé à ne pas
 produire comme étant potentiellement perdue (avec les dangers que cela pouvait
 impliquer), le temps passé à apprendre me semble aujourd'hui indissociable du
 fait de fournir de la qualité. Plus encore, j'ai compris que ce temps n'etait pas
