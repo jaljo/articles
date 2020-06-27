@@ -1,3 +1,12 @@
+<p>
+    <i>
+        This article was originaly published on
+        <a href="https://knplabs.com/fr/blog/deal-with-form-submission-from-multiple-events-animation-react-redux">
+            KNP Labs blog
+        </a>.
+    </i>
+</p>
+
 <blockquote>
     When struggling with a problem, the worst mistake a mathematician can make,
     is to look for a solution into a book.
@@ -79,19 +88,19 @@
 
 <ul>
     <li>
-        all three events dispatch a generic <span className="code">CLOSE</span>
+        all three events dispatch a generic <span class="code">CLOSE</span>
         action,
     </li>
     <li>
         this action reduces the state of the panel, say it sets a boolean to
-        <span className="code">false</span>,
+        <span class="code">false</span>,
     </li>
     <li>
         this boolean is used in a React component to mount or unmount the panel,
     </li>
     <li>
         using lifecycle hooks, we can dispatch a
-        <span className="code">SUBMIT</span> action when the component is about
+        <span class="code">SUBMIT</span> action when the component is about
         to unmount. This action gathers and carries the form data in its
         payload, so we can do whatever we want with it later in our program.
     </li>
@@ -113,7 +122,7 @@
 </p>
 
 <p>
-    The key idea here is <i><time</i>. We have to think of intermediate actions
+    The key idea here is <i>time</i>. We have to think of intermediate actions
     that will let us identify the moment when the panel is opening or closing,
     so we can delay the moment it will be unmounted.
 </p>
@@ -125,13 +134,13 @@
 <ul>
     <li>
         a user clicks on an element to open the panel. It dispatches an
-        <span className="code">OPEN</span> action,
+        <span class="code">OPEN</span> action,
     </li>
     <li>
         based on its state, the panel can be mounted in the DOM,
     </li>
     <li>
-        a lifecycle hook dispatches a <span className="code">MOUNTED</span>
+        a lifecycle hook dispatches a <span class="code">MOUNTED</span>
         action,
     </li>
     <li>
@@ -147,7 +156,7 @@
 <ul>
     <li>
         a user clicks on one of the three elements that fire the
-        <span className="code">CLOSE</span> action,
+        <span class="code">CLOSE</span> action,
     </li>
     <li>
         the state updates, the CSS class is removed from the view, the panel
@@ -155,19 +164,19 @@
     </li>
     <li>
         <i>here is the magic trick</i> : we need to dispatch a
-        <span className="code">CLOSED</span> action, so the panel can be
+        <span class="code">CLOSED</span> action, so the panel can be
         unmounted, but <i>after</i> the animation is complete. This is where
-        epics come into play ! The <span className="code">CLOSE</span> action is
+        epics come into play ! The <span class="code">CLOSE</span> action is
         observed by a little epic, which <i>delays</i> this action, just the
         time we need to play the closing animation. Then, it finally dispatches
-        the <span className="code">CLOSED</span> action,
+        the <span class="code">CLOSED</span> action,
     </li>
     <li>
         from there, we can take back our initial flow : the state is updated and
         the panel (which is now hidden, thanks to epics) is unmounted,
     </li>
     <li>
-        a lifecycle hook triggers the <span className="code">SUBMIT</span>
+        a lifecycle hook triggers the <span class="code">SUBMIT</span>
         action when the panel is unmounted.
     </li>
 </ul>
@@ -178,15 +187,15 @@
     component of a panel, with its lifecycle hooks :
 </p>
 
-<div className="git-gist" data-src="https://gist.github.com/jaljo/6a79a307887da60a99e860711f907b0b.js"></div>
+<div class="git-gist" data-src="https://gist.github.com/jaljo/6a79a307887da60a99e860711f907b0b.js"></div>
 
 <p>
     Here is the panel view component. Just notice how we use the
-    <span className="code">isOpening</span> prop to set the opening CSS class in
+    <span class="code">isOpening</span> prop to set the opening CSS class in
     the section tag.
 </p>
 
-<div className="git-gist" data-src="https://gist.github.com/jaljo/e060d7b1b63147a049399111f5462ab2.js"></div>
+<div class="git-gist" data-src="https://gist.github.com/jaljo/e060d7b1b63147a049399111f5462ab2.js"></div>
 
 <p>
     The reducer takes care of updating the panel state. We’re using two distinct
@@ -194,25 +203,16 @@
     the other to identify if we are playing the animation.
 </p>
 
-<div className="git-gist" data-src="https://gist.github.com/jaljo/9eb3a0d6ee31be64161041db190a39c6.js"></div>
+<div class="git-gist" data-src="https://gist.github.com/jaljo/9eb3a0d6ee31be64161041db190a39c6.js"></div>
 
 <p>
     And the icing on the cake, a little epic that delays our
-    <span className="code">CLOSED</span> action :
+    <span class="code">CLOSED</span> action :
 </p>
 
-<div className="git-gist" data-src="https://gist.github.com/jaljo/9eb3a0d6ee31be64161041db190a39c6.js"></div>
+<div class="git-gist" data-src="https://gist.github.com/jaljo/9eb3a0d6ee31be64161041db190a39c6.js"></div>
 
 <p>
     I published a proof of concept repository with the entire source code
     <a href="https://github.com/jaljo/form-events">here</a>. Check it out !
-</p>
-
-<p>
-    <i>
-        This article was originaly published on
-        <a href="https://knplabs.com/fr/blog/deal-with-form-submission-from-multiple-events-animation-react-redux">
-            KNP Labs blog
-        </a>.
-    </i>
 </p>
