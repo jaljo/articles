@@ -228,4 +228,40 @@
 
 <h2>Non advertising vendors</h2>
 
-@TODO
+<p>
+    Although Google
+    <a href="https://digiday.com/media/google-to-join-iabs-revamped-gdpr-framework-by-next-march/">
+        engaged itself
+    </a>
+    to comply with the Transparency & Consent Framework by next March, there is
+    no such thing regarding Facebook or Twitter. In this situation the only
+    solution we have to ensure that no cookie is created without the explicit
+    consent of the user is to totally block these vendors until the user accepts
+    every purpose in the CMP interface.
+</p>
+
+<p>
+    OIL dispatches an event when the user ‘opt in’ (in other words, he checked
+    some options and accepted the global policy of the website), and another if
+    he choose to change these options later. By observing these events, we can
+    then decode the consent string from the CMP, check if the permissions given
+    are enough to allow non advertising vendors to work, and finally dispatch an
+    action to reflect these changes. As this is really tied to our own
+    implementation, the following snippet give you an example of how it works
+    using plain old js:
+</p>
+
+<div class="git-gist" data-src="https://gist.github.com/jaljo/83d6b67ae8f64481fab3d3facc797af1.js"></div>
+
+<p>
+    <span class="code">window.AS_OIL</span> is the way to access the opt in
+    layer data, and especially to get the encoded consent string. The
+    <span class="code">checkForConsent</span> function returns a boolean value
+    which determines if non IAB compliant vendors should be loaded or not. We
+    can rely on it to load or block Facebook, Twitter or Google initialization
+    scripts.
+</p>
+
+<p>
+    And voilà !
+</p>
