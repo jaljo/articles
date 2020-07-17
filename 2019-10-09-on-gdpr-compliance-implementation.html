@@ -1,0 +1,267 @@
+<p>
+    <i>
+        This article was originaly published on
+        <a href="https://knplabs.com/fr/blog/on-gdpr-compliance-implementation">
+            KNP Labs blog
+        </a>.
+    </i>
+</p>
+
+<p>
+    The General Data Protection Regulation (GDPR) is a regulation in european
+    law which applies to all residents of the european EU and aims to give
+    control to individuals over their personal data, and how they are used by
+    third-party companies. As developers, we are directly concerned by this law,
+    as it is our responsibility to ensure that the websites we run in production
+    are complying with it.
+</p>
+
+<p>
+    Our clients want to analyse their traffic, share contents on social networks
+    and eventually benefit from advertising revenues. For years, we took the
+    habit to widely use third-party libraries to achieve these needs, and became
+    heavily dependent on them. Although we do have control over how we exploit
+    personal information of our users (data we persist in a database, cookies
+    etc), this vanishes as soon as things get out of our technical control.
+</p>
+
+<p>
+    This article is an attempt to describe how we wandered through this by the
+    help of a concrete example.
+</p>
+
+<h2>i24NEWS as an example</h2>
+
+<p>
+    i24NEWS is an international news and current affairs television channel,
+    under ALTICE USA NEWS DIVISION group, which also publishes articles on the
+    internet in three languages: french, arabic and english. Although the GDPR
+    is only supposed to protect users within the EU, i24NEWS took the decision
+    not to have distinct rules and to apply the same restrictions, no matter the
+    country of the end user.
+</p>
+
+<p>
+    On i24NEWS website, users can register and sign in, so they can comment on
+    articles and flag contents as favorite for later readings. Since we persist
+    personal information such as their email, we are thus legally bound to give
+    them the possibility to delete these information, as stated by the
+    <a href="https://gdpr.eu/right-to-be-forgotten/">right to be forgotten</a>.
+     This is no big deal. One delete SQL query, and we’re done.
+</p>
+
+<p>
+    Without being registered, users can also subscribe to a newsletter. As
+    i24NEWS uses a marketing cloud platform to trigger newsletter campaigns, we
+    also have to ensure that user’s personal information are removed from their
+    system as well when they unsubscribe from the newsletter. Not very
+    complicated either.
+</p>
+
+<p>
+    Things become way more difficult when it comes to vendors used on the
+    website, which creates tons of mysterious and unspeakable cookies:
+</p>
+
+<ul>
+    <li>Google analytics, to measure traffic and most read articles,</li>
+    <li>Facebook and Twitter SDK, to share articles on social networks,</li>
+    <li>SmartAds and Taboola, for advertising purpose.</li>
+</ul>
+
+<p>
+    As developer are not lawyers, the EU created a dedicated organization to
+    normalize and ease interfacing between first parties (editors like i24NEWS)
+    and third parties (vendors). Unfortunately, not every vendor comply with it,
+    so in the end we have two different cases to handle there : advertisers and
+    other vendors.
+</p>
+
+<p>
+    Hold your breath, lots of acronyms to come right now !
+</p>
+
+<h2>The role of the Interactive Advertising Bureau</h2>
+
+<p>
+    The <a href="https://iabeurope.eu/">Interactive Advertising Bureau (IAB)</a>
+    is an advertising business organization that develops industry standards and
+    provides legal support for the online advertising industry. One of their
+    missions is to propose a
+    <a href="https://www.iabfrance.com/article/transparency-consent-framework">
+        Transparency & Consent Framework
+    </a>
+    which let editors work with third parties and allow them to process user
+    data in compliance with the law.
+</p>
+
+<p>
+    To achieve that, vendors register themselves after the IAB, by providing a
+    list of purposes they seek regarding user data, i.e. measurement, ad
+    selection, delivery and reporting… By doing so, they give IAB the
+    possibility to maintain a
+    <a href="https://vendorlist.consensu.org/vendorlist.json">vendor list</a>
+    which contains every purpose, feature, vendor (technical platforms that can
+    store and process personal data) in the advertising supply chain, and their
+    relations. Here is an example of how it looks for the Smart Adserver vendor :
+</p>
+
+<div class="git-gist" data-src="https://gist.github.com/jaljo/86954a679fcaed5e960f687ead25c4aa.js"></div>
+
+<p>
+    Ids refers to purposes and features defined earlier in the vendor list. So
+    how is that useful actually? Well, unless you lived in a cave for the past
+    years, you probably noticed how the internet has been invaded by popups
+    yelling “YOUR PRIVACY MATTERS” and asking you to check boxes in an interface
+    as user friendly as a tax form? This is only the tip of the iceberg and is
+    part of what is called a Consent Management Provider (CMP). The vendor list
+    we saw above represents the base data used in the CMP to determine for which
+    vendors and purposes the user should explicitly give his consent.
+    Ironically, from a legitimate need to protect user privacy (and to fight
+    ads), we ended up by websites full of these invasive overlays.
+</p>
+
+<p>
+    Under the hood, the user choice, basically a list of ids, is then compressed
+    in a base 64 consent string, which can be parsed by vendors. That way, they
+    can set proper permissions on their side regarding personal data gathering
+    and storage.
+</p>
+
+<figure>
+    <img src="https://camo.githubusercontent.com/cee752870f3c090c8680fbfea3e86b6719381975/68747470733a2f2f736d61727461647365727665722e636f6d2f636f6e74656e742f75706c6f6164732f323031382f30352f676470722d636f6e73656e742d737472696e672d312e706e67" alt="consent-workflow" />
+    <figcaption>
+        Source: IAB Europe
+    </figcaption>
+</figure>
+
+<p>
+    The Transparency & Consent Framework states that every CMP must provide the
+    following API:
+</p>
+
+<p>
+    <span class="code">__cmp(Command, Parameter, Callback)</span>
+</p>
+
+<p>
+    This function is called by IAB compliant vendors to get the consent string
+    from the website on which the CMP has been implemented.
+</p>
+
+<p>
+    If you’re still reading, let sum things up:
+</p>
+
+<ul>
+    <li>editors choose a CMP and implement it on their public website,</li>
+    <li>end user define permissions in the CMP interface,</li>
+    <li>permissions are concatenated and encoded in a consent string,</li>
+    <li>
+        the consent string is transmitted to vendors thanks to the
+        <span class="code">__cmp()</span> API,
+    </li>
+    <li>the IAB emit standards for all this mess to work.</li>
+</ul>
+
+<p>
+    At first sight, nothing that we couldn’t build by ourselves. Although there
+    is a lot of out of the box CMPs in the market, we definitely didn’t want to
+    use one of them. When facing a problem, and unless we’re forced not to do
+    so, we always make the choice to build our own solution as it reduces
+    dependencies and therefore gives us control and customization enhancements.
+    The consent string SDK being provided as an
+    <a href="https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/tree/master/Consent%20String%20SDK">
+    open source library
+    </a>
+    by the IAB, all we had to do was to build a little form, generate the string
+    and basta. How naive. From the IAB itself:
+</p>
+
+<blockquote>
+    A Transparency & Consent String may only be created by an IAB Europe TCF
+    registered CMP using its assigned CMP ID number in accordance with the
+    Policies. Vendors or any other third-party service providers must neither
+    create nor alter TC Strings. These and other requirements are articulated in
+    the Policies to which all parties including CMPs, Publishers, and Vendors,
+    are bound.
+</blockquote>
+
+<p>
+    Like vendors, CMPs have to register themselves with the IAB, and this has
+    legal repercussions. After some research in that direction, we finally
+    decided that it wasn’t worth to involve i24NEWS neither KNP Labs in legal
+    concerns by declaring ourselves as a CMP.
+</p>
+
+<h2>OIL to the rescue</h2>
+
+<p>
+    <a href="https://github.com/as-ideas/oil">OIL</a> is an officialy registered
+    CMP and pretty much answered our needs. What convinced us is that it makes
+    good usage of
+    <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/message_event">
+        message events
+    </a>
+    .
+</p>
+
+<p>
+    See <a href="https://oil.axelspringer.com/docs/#oil-events">here</a> for a
+    complete reference of OIL dispatched messages.
+</p>
+
+<p>
+    i24NEWS frontend being a single page application we developped in a reactive
+    functionnal programming way (to keep it short, just think that the
+    application is the reflection of a state, which is updated by dispatching
+    actions through time), we could hook onto those OIL events to accordingly
+    apply the side effects we need.
+</p>
+
+<p>
+    This feature was life saving when it came to handle vendors that were not
+    part of the official vendor list used by the CMP. Remember that for now, by
+    implementing a CMP we only took care of the advertisers vendors, but for
+    other ones, extra cares have to be taken.
+</p>
+
+<h2>Non advertising vendors</h2>
+
+<p>
+    Although Google
+    <a href="https://digiday.com/media/google-to-join-iabs-revamped-gdpr-framework-by-next-march/">
+        engaged itself
+    </a>
+    to comply with the Transparency & Consent Framework by next March, there is
+    no such thing regarding Facebook or Twitter. In this situation the only
+    solution we have to ensure that no cookie is created without the explicit
+    consent of the user is to totally block these vendors until the user accepts
+    every purpose in the CMP interface.
+</p>
+
+<p>
+    OIL dispatches an event when the user ‘opt in’ (in other words, he checked
+    some options and accepted the global policy of the website), and another if
+    he choose to change these options later. By observing these events, we can
+    then decode the consent string from the CMP, check if the permissions given
+    are enough to allow non advertising vendors to work, and finally dispatch an
+    action to reflect these changes. As this is really tied to our own
+    implementation, the following snippet give you an example of how it works
+    using plain old js:
+</p>
+
+<div class="git-gist" data-src="https://gist.github.com/jaljo/83d6b67ae8f64481fab3d3facc797af1.js"></div>
+
+<p>
+    <span class="code">window.AS_OIL</span> is the way to access the opt in
+    layer data, and especially to get the encoded consent string. The
+    <span class="code">checkForConsent</span> function returns a boolean value
+    which determines if non IAB compliant vendors should be loaded or not. We
+    can rely on it to load or block Facebook, Twitter or Google initialization
+    scripts.
+</p>
+
+<p>
+    And voilà !
+</p>
